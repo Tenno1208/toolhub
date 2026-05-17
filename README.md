@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ToolHub - The Ultimate Digital Toolbox
 
-## Getting Started
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 
-First, run the development server:
+ToolHub adalah aplikasi *all-in-one utility* modern yang dibangun menggunakan arsitektur frontend yang cepat dan aman. Dirancang dengan filosofi *Privacy-First*, seluruh pemrosesan data (seperti enkripsi, kompresi gambar, dan generator sandi) dilakukan secara lokal di dalam *browser* pengguna tanpa intervensi server.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## ✨ Fitur Utama (14 Tools)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Aplikasi ini mencakup koleksi utilitas yang sering dibutuhkan oleh *developer* maupun pengguna umum, dibungkus dalam antarmuka *Dark Mode* yang minimalis dan responsif:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**Developer & Security**
+- **JSON Formatter & Minifier:** Merapikan atau mengompres kode JSON.
+- **Base64 Converter:** Encode dan decode teks ke format Base64.
+- **SHA256 Hash Generator:** Mengenkripsi teks dengan Web Crypto API lokal.
+- **Password Generator:** Membuat kata sandi acak dengan kriteria keamanan tinggi.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**Media & Identifikasi**
+- **QR Code Generator:** Membuat kode QR instan dari URL/Teks yang dapat diunduh.
+- **QR Code Scanner:** Memindai QR dari kamera langsung atau *upload* dari galeri.
+- **Local Image Compressor:** Mengompresi ukuran gambar langsung di *browser* (tanpa *upload* ke server).
+- **Color Picker:** Ekstraktor warna dengan konversi format HEX dan RGB.
+- **IP Info Finder:** Melacak informasi geografis dan provider dari IP Address pengguna.
 
-## Learn More
+**Produktivitas & Teks**
+- **To-Do List:** Manajemen tugas harian dengan integrasi `localStorage`.
+- **Text Case Converter:** Mengubah format teks (UPPER, lower, Title, Sentence).
+- **Word Counter:** Menghitung jumlah kata, karakter, dan baris secara *real-time*.
+- **Stopwatch & Lap Timer:** Penghitung waktu presisi dengan pencatatan *lap*.
+- **Age Calculator:** Menghitung umur detail hingga hitungan hari.
+- **Calculator:** Kalkulator digital dasar untuk perhitungan cepat.
 
-To learn more about Next.js, take a look at the following resources:
+## 🚀 Teknologi yang Digunakan
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Framework:** [Next.js](https://nextjs.org/) (App Router)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **Icons:** [Lucide React](https://lucide.dev/)
+- **QR Scanner:** `@yudiel/react-qr-scanner` & `jsqr`
+- **Deployment:** Vercel
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 💻 Cara Instalasi & Menjalankan di Lokal
 
-## Deploy on Vercel
+Untuk menjalankan *project* ini di komputermu sendiri, ikuti langkah-langkah berikut:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Clone repositori ini**
+   ```bash
+   git clone [https://github.com/USERNAME_KAMU/toolhub-v1.git](https://github.com/USERNAME_KAMU/toolhub-v1.git)
+   cd toolhub-v1
