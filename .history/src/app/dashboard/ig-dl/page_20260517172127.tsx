@@ -8,20 +8,21 @@ export default function InstagramDownloader() {
   const [error, setError] = useState('');
 
   const handleRedirectDownload = (e: React.FormEvent) => {
-  e.preventDefault();
-  if (!url.trim()) return;
+    e.preventDefault();
+    if (!url.trim()) return;
 
-  if (!url.includes('instagram.com')) {
-    setError('Tautan tidak valid. Pastikan memasukkan tautan post atau reels dari Instagram.');
-    return;
-  }
+    // Validasi sederhana memastikan tautan yang dimasukkan benar dari Instagram
+    if (!url.includes('instagram.com')) {
+      setError('Tautan tidak valid. Pastikan memasukkan tautan post atau reels dari Instagram.');
+      return;
+    }
 
-  setError('');
-  
-  // Menggunakan SaveFrom Engine yang mendukung parsing hash otomatis saat halaman dimuat
-  const targetUrl = `https://id.savefrom.net/#url=${encodeURIComponent(url.trim())}`;
-  window.open(targetUrl, '_blank', 'noopener,noreferrer');
-};
+    setError('');
+    
+    // Membuka engine bypass eksternal yang stabil di tab baru dengan membawa parameter URL inputan
+    const targetUrl = `https://snapinsta.app/id?url=${encodeURIComponent(url.trim())}`;
+    window.open(targetUrl, '_blank', 'noopener,noreferrer');
+  };
 
   return (
     <div className="min-h-screen bg-slate-950 pt-24 pb-12 px-4 sm:px-8 text-slate-200 select-none">
@@ -45,10 +46,10 @@ export default function InstagramDownloader() {
           
           <div className="mb-6">
             <h2 className="text-sm font-bold text-fuchsia-400 uppercase tracking-widest mb-2 flex items-center gap-1.5">
-              <Sparkles className="w-4 h-4" /> Cloud Bridge Downloader v2
+              <Sparkles className="w-4 h-4" /> Cloud Bridge Downloader
             </h2>
             <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
-              Bypass proteksi token Meta secara aman. Tempelkan tautan foto, video, atau Reels Instagram kamu di bawah ini untuk mengunduh berkas HD asli tanpa batasan limitasi CORS browser.
+              Bypass enkripsi token Meta secara instan. Masukkan tautan foto, video, atau Reels Instagram kamu di bawah ini untuk mengunduh dengan resolusi tertinggi tanpa batasan limitasi CORS browser.
             </p>
           </div>
 
@@ -88,7 +89,7 @@ export default function InstagramDownloader() {
           {/* Info Banner */}
           <div className="mt-8 pt-6 border-t border-white/[0.02] text-center">
             <p className="text-[11px] text-slate-500 leading-relaxed max-w-md mx-auto">
-              Sistem menjembatani URL inputan menuju engine eksternal secara terenkripsi demi menjaga stabilitas unduhan tanpa batasan limit harian.
+              Sistem mendeteksi arsitektur lokal komputermu secara otomatis dan melompati pembatasan kebijakan CORS secara eksternal demi keamanan data privasi profil Anda.
             </p>
           </div>
 

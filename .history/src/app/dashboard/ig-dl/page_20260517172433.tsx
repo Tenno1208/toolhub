@@ -8,20 +8,21 @@ export default function InstagramDownloader() {
   const [error, setError] = useState('');
 
   const handleRedirectDownload = (e: React.FormEvent) => {
-  e.preventDefault();
-  if (!url.trim()) return;
+    e.preventDefault();
+    if (!url.trim()) return;
 
-  if (!url.includes('instagram.com')) {
-    setError('Tautan tidak valid. Pastikan memasukkan tautan post atau reels dari Instagram.');
-    return;
-  }
+    // Validasi sederhana memastikan tautan dari Instagram
+    if (!url.includes('instagram.com')) {
+      setError('Tautan tidak valid. Pastikan memasukkan tautan post atau reels dari Instagram.');
+      return;
+    }
 
-  setError('');
-  
-  // Menggunakan SaveFrom Engine yang mendukung parsing hash otomatis saat halaman dimuat
-  const targetUrl = `https://id.savefrom.net/#url=${encodeURIComponent(url.trim())}`;
-  window.open(targetUrl, '_blank', 'noopener,noreferrer');
-};
+    setError('');
+    
+    // UPDATE DOMAIN: Mengarah langsung ke domain .to yang terbukti aktif di browsermu
+    const targetUrl = `https://snapinsta.to/id?url=${encodeURIComponent(url.trim())}`;
+    window.open(targetUrl, '_blank', 'noopener,noreferrer');
+  };
 
   return (
     <div className="min-h-screen bg-slate-950 pt-24 pb-12 px-4 sm:px-8 text-slate-200 select-none">
