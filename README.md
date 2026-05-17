@@ -1,49 +1,72 @@
-# ToolHub - The Ultimate Digital Toolbox
+# 🛠️ ToolHub — The Ultimate Digital Toolbox
 
-![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
-![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
+<p align="center">
+  <img src="https://img.shields.io/badge/Version-1.0.0--Beta-lime?style=for-the-badge" alt="Version" />
+  <img src="https://img.shields.io/badge/Status-In_Development-orange?style=for-the-badge" alt="Status" />
+  <img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" alt="License" />
+</p>
 
-ToolHub adalah aplikasi *all-in-one utility* modern yang dibangun menggunakan arsitektur frontend yang cepat dan aman. Dirancang dengan filosofi *Privacy-First*, seluruh pemrosesan data (seperti enkripsi, kompresi gambar, dan generator sandi) dilakukan secara lokal di dalam *browser* pengguna tanpa intervensi server.
+<p align="center">
+  <strong>ToolHub</strong> adalah sebuah platform <em>all-in-one web utility</em> modern yang dirancang untuk produktivitas harian dan kebutuhan teknis developer. Dibangun menggunakan arsitektur frontend berperforma tinggi dengan filosofi <strong>Privacy-First</strong>—seluruh pemrosesan data sensitif dilakukan sepenuhnya di sisi klien (lokal pada browser pengguna) tanpa melibatkan server pihak ketiga.
+</p>
 
-## ✨ Fitur Utama (14 Tools)
+---
 
-Aplikasi ini mencakup koleksi utilitas yang sering dibutuhkan oleh *developer* maupun pengguna umum, dibungkus dalam antarmuka *Dark Mode* yang minimalis dan responsif:
+## 🚀 Tech Stack & Fitur Unggulan
 
-**Developer & Security**
-- **JSON Formatter & Minifier:** Merapikan atau mengompres kode JSON.
-- **Base64 Converter:** Encode dan decode teks ke format Base64.
-- **SHA256 Hash Generator:** Mengenkripsi teks dengan Web Crypto API lokal.
-- **Password Generator:** Membuat kata sandi acak dengan kriteria keamanan tinggi.
+### ⚙️ Core Technologies
+- **Framework:** [Next.js 15+](https://nextjs.org/) (App Router & Turbopack)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/) (Minimalist Dark Mode Aesthetics)
+- **Component Icons:** [Lucide React](https://lucide.dev/)
+- **Libraries:** `@yudiel/react-qr-scanner` & `jsqr` (Lokal Gambar Decoder)
+- **Deployment:** [Vercel](https://vercel.com/)
 
-**Media & Identifikasi**
-- **QR Code Generator:** Membuat kode QR instan dari URL/Teks yang dapat diunduh.
-- **QR Code Scanner:** Memindai QR dari kamera langsung atau *upload* dari galeri.
-- **Local Image Compressor:** Mengompresi ukuran gambar langsung di *browser* (tanpa *upload* ke server).
-- **Color Picker:** Ekstraktor warna dengan konversi format HEX dan RGB.
-- **IP Info Finder:** Melacak informasi geografis dan provider dari IP Address pengguna.
+### 🧭 Eksplorasi 14 Fitur Saat Ini
+Aplikasi ini menyediakan antarmuka super responsif yang dibagi menjadi tiga kategori utama:
 
-**Produktivitas & Teks**
-- **To-Do List:** Manajemen tugas harian dengan integrasi `localStorage`.
-- **Text Case Converter:** Mengubah format teks (UPPER, lower, Title, Sentence).
-- **Word Counter:** Menghitung jumlah kata, karakter, dan baris secara *real-time*.
-- **Stopwatch & Lap Timer:** Penghitung waktu presisi dengan pencatatan *lap*.
-- **Age Calculator:** Menghitung umur detail hingga hitungan hari.
-- **Calculator:** Kalkulator digital dasar untuk perhitungan cepat.
+1. **Security & Dev Tools:** - *JSON Formatter & Minifier* — Merapikan dan mengompresi struktur data objek.
+   - *Base64 Converter* — Enkripsi dan dekripsi teks instan.
+   - *SHA256 Hash Generator* — Pengacak keamanan berbasis Web Crypto API.
+   - *Password Generator* — Generator sandi kuat dengan kustomisasi parameter variabel.
+2. **Media & Utility:**
+   - *QR Code Generator* — Membuat QR Code dari URL/Teks secara instan dan dapat diunduh.
+   - *QR Code Scanner* — Pemindai dua arah via akses kamera langsung atau unggah file dari galeri.
+   - *Local Image Compressor* — Memperkecil ukuran file gambar tanpa mengurangi kualitas secara drastis (100% lokal).
+   - *Color Picker* — Alat bantu ekstraksi kode warna HEX dan RGB untuk desainer UI/UX.
+   - *IP Info Finder* — Deteksi jaringan IP dan informasi provider secara aktual.
+3. **Productivity & Essentials:**
+   - *To-Do List* — Manajemen tugas interaktif yang terintegrasi dengan `localStorage`.
+   - *Text Case Converter* — Konversi teks cepat (UPPER, lower, Title, dll).
+   - *Word Counter* — Penghitung jumlah kata, karakter, dan baris *real-time*.
+   - *Stopwatch & Lap Timer* — Penghitung waktu presisi dengan pencatatan jeda.
+   - *Age Calculator & Digital Calculator* — Utilitas perhitungan matematika dasar dan umur mendetail.
 
-## 🚀 Teknologi yang Digunakan
+---
 
-- **Framework:** [Next.js](https://nextjs.org/) (App Router)
-- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
-- **Icons:** [Lucide React](https://lucide.dev/)
-- **QR Scanner:** `@yudiel/react-qr-scanner` & `jsqr`
-- **Deployment:** Vercel
+## 📈 Rencana Pengembangan Kedepan (Future Roadmap)
 
-## 💻 Cara Instalasi & Menjalankan di Lokal
+ToolHub dirancang untuk terus tumbuh secara berkala. Berikut adalah beberapa fitur fungsional dan peningkatan arsitektur yang direncanakan pada pembaruan mendatang:
 
-Untuk menjalankan *project* ini di komputermu sendiri, ikuti langkah-langkah berikut:
+- [ ] **Sistem Autentikasi Opsional (NextAuth.js):** Sinkronisasi data To-Do List lintas perangkat menggunakan database cloud yang aman.
+- [ ] **Alat Tambahan Developer:** Menambahkan *Regex Tester*, *Markdown Live Preview Editor*, dan *JWT (JSON Web Token) Debugger*.
+- [ ] **Media Suite Tool:** Fitur potong gambar (*Image Cropper*) dan konverter format file gambar (PNG ke WebP/JPEG).
+- [ ] **Peningkatan PWA (Progressive Web App):** Optimalisasi agar aplikasi dapat diinstal langsung di HP Android/iOS dan dijalankan secara *offline* sepenuhnya.
 
-1. **Clone repositori ini**
-   ```bash
-   git clone [https://github.com/USERNAME_KAMU/toolhub-v1.git](https://github.com/USERNAME_KAMU/toolhub-v1.git)
-   cd toolhub-v1
+---
+
+## 💻 Panduan Instalasi Lokal
+
+Ingin menjalankan atau ikut mengembangkan project ini di perangkatmu? Ikuti instruksi berikut:
+
+```bash
+# 1. Clone repositori ini
+git clone [https://github.com/Tenno1208/toolhub.git](https://github.com/Tenno1208/toolhub.git)
+
+# 2. Masuk ke direktori project
+cd toolhub
+
+# 3. Install semua dependensi package yang diperlukan
+npm install
+
+# 4. Jalankan lokal development server
+npm run dev
