@@ -1,5 +1,4 @@
-import Link from 'next/link';
-import { ArrowRight, Zap, Shield, Layout, Terminal, Sparkles } from 'lucide-react';
+import Link from 'next/link';import { ArrowRight, Zap, Shield, Layout, Terminal, Sparkles } from 'lucide-react';
 import Footer from '@/components/Footer'; // Import komponen Footer baru
 
 export default function LandingPage() {

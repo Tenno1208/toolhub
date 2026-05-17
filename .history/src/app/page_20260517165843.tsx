@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from 'Link';
 import { ArrowRight, Zap, Shield, Layout, Terminal, Sparkles } from 'lucide-react';
 import Footer from '@/components/Footer'; // Import komponen Footer baru
 
