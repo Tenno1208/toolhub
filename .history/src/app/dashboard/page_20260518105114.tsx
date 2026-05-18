@@ -8,9 +8,7 @@ import {
   Layers,
   Flame,
   Users,
-  Droplet,
-  Percent,
-  Activity
+  Droplet
 } from 'lucide-react';
 import Link from 'next/link';
 import Footer from '@/components/Footer'; // Mengimpor komponen footer terpisah
@@ -71,7 +69,7 @@ const tools = [
   { id: 24, name: 'Keputusan Mutlak', icon: <HelpCircle className="w-7 h-7 text-cyan-400" />, path: '/decision-picker', category: 'Fun & Utilities' },
   { id: 25, name: 'Glass Generator', icon: <Layers className="w-7 h-7 text-amber-400" />, path: '/glass-generator', category: 'Fun & Utilities' },
   { id: 26, name: 'Kalkulator Jodoh', icon: <Heart className="w-7 h-7 text-rose-400" />, path: '/love-calc', category: 'Fun & Utilities' },
-  { id: 27, name: 'Meme Soundboard', icon: <Volume2 className="w-7 h-7 text-indigo-400" />, path: '/meme-sound', category: 'Fun & Utilities' },
+  { id: 27, name: 'Meme Soundboard', icon: <Volume2 className="w-7 h-7 text-indigo-400" />, path: '/meme-sound', category: 'Fun & Utilities' }
 
   // Tambahkan 5 objek ini di dalam array tools dashboard kamu:
     { id: 28, name: 'Kalkulator BMI', icon: <Activity className="w-7 h-7 text-emerald-400" />, path: '/bmi-calc', category: 'Fun & Utilities' },

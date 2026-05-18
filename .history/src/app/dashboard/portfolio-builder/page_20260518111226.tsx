@@ -127,6 +127,7 @@ export default function PortfolioBuilder() {
         <p class="accent-text font-bold mb-4">${role}</p>
         <p class="text-slate-400 mb-8 leading-relaxed max-w-lg mx-auto text-sm">${about}</p>
 
+        {/* 🚀 FIXED: Ikon disematkan kembali menggunakan kode SVG native murni agar tidak hilang */}
         <div class="flex flex-wrap justify-center gap-3 mb-12">
             ${ig ? `
             <a href="${ig}" target="_blank" class="glass px-4 py-2.5 rounded-xl text-xs font-bold inline-flex items-center gap-2 transition-all">

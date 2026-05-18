@@ -72,20 +72,17 @@ export default function PortfolioBuilder() {
   };
 
   // --- HTML THEME INJECTOR GENERATOR ---
-  // --- HTML THEME INJECTOR GENERATOR WITH EMBEDDED ICONS ---
   const generateHTML = () => {
     let themeStyles = '';
-    let iconColors = { ig: '', tw: '', gh: '', tk: '', em: '' };
     
-    // Konfigurasi Warna Ikon dan Variasi Skema Desain CSS Tema
+    // Konfigurasi Variasi Skema Desain CSS Tema
     if (selectedTheme === 'royal') {
       themeStyles = `
         body { background-color: #030712; color: #f3f4f6; font-family: system-ui, sans-serif; }
         .glass { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); backdrop-filter: blur(12px); }
         .accent-text { color: #a855f7; }
-        .card-hover:hover { border-color: rgba(168, 85, 247, 0.3); background: rgba(255, 255, 255, 0.04); }
+        .card-hover:hover { border-color: rgba(168, 85, 247, 0.3); }
       `;
-      iconColors = { ig: '#d946ef', tw: '#f8fafc', gh: '#ffffff', tk: '#22d3ee', em: '#c084fc' };
     } else if (selectedTheme === 'cyberpunk') {
       themeStyles = `
         body { background-color: #000000; color: #00ff66; font-family: 'Courier New', Courier, monospace; }
@@ -94,8 +91,6 @@ export default function PortfolioBuilder() {
         .card-hover:hover { background: #00ff66; color: #000000; }
         .card-hover:hover h3, .card-hover:hover p { color: #000000 !important; }
       `;
-      // Tema Cyberpunk semuanya diseragamkan pakai warna hijau neon siber
-      iconColors = { ig: '#00ff66', tw: '#00ff66', gh: '#00ff66', tk: '#00ff66', em: '#00ff66' };
     } else { // Minimalist Light Theme
       themeStyles = `
         body { background-color: #f8fafc; color: #0f172a; font-family: system-ui, sans-serif; }
@@ -103,7 +98,6 @@ export default function PortfolioBuilder() {
         .accent-text { color: #2563eb; }
         .card-hover:hover { border-color: #2563eb; background-color: #f1f5f9; }
       `;
-      iconColors = { ig: '#db2777', tw: '#1d9bf0', gh: '#0f172a', tk: '#000000', em: '#2563eb' };
     }
 
     return `<!DOCTYPE html>
@@ -128,35 +122,11 @@ export default function PortfolioBuilder() {
         <p class="text-slate-400 mb-8 leading-relaxed max-w-lg mx-auto text-sm">${about}</p>
 
         <div class="flex flex-wrap justify-center gap-3 mb-12">
-            ${ig ? `
-            <a href="${ig}" target="_blank" class="glass px-4 py-2.5 rounded-xl text-xs font-bold inline-flex items-center gap-2 transition-all">
-                <svg class="w-4 h-4" style="color: ${iconColors.ig}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37zM17.5 6.5h.01"/></svg>
-                Instagram
-            </a>` : ''}
-            
-            ${tw ? `
-            <a href="${tw}" target="_blank" class="glass px-4 py-2.5 rounded-xl text-xs font-bold inline-flex items-center gap-2 transition-all">
-                <svg class="w-3.5 h-3.5" style="color: ${iconColors.tw}" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                Twitter
-            </a>` : ''}
-            
-            ${gh ? `
-            <a href="${gh}" target="_blank" class="glass px-4 py-2.5 rounded-xl text-xs font-bold inline-flex items-center gap-2 transition-all">
-                <svg class="w-4 h-4" style="color: ${iconColors.gh}" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.068.069-.068 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" /></svg>
-                GitHub
-            </a>` : ''}
-            
-            ${tk ? `
-            <a href="${tk}" target="_blank" class="glass px-4 py-2.5 rounded-xl text-xs font-bold inline-flex items-center gap-2 transition-all">
-                <svg class="w-3.5 h-3.5" style="color: ${iconColors.tk}" fill="currentColor" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.05 1.62 4.2 1.07 1.15 2.52 1.84 4.05 2.05v3.63c-1.68-.05-3.32-.59-4.73-1.53a7.46 7.46 0 0 1-2.31-2.43v9.06c.03 1.14-.14 2.29-.53 3.37A7.472 7.472 0 0 1 8.01 23.8a7.34 7.34 0 0 1-5.18-1.54 7.488 7.488 0 0 1-2.73-5.59c-.06-1.46.33-2.93 1.11-4.17 1.01-1.54 2.61-2.61 4.41-2.96v3.7c-.85.16-1.65.61-2.22 1.28-.61.76-.88 1.73-.75 2.69.13 1.09.77 2.07 1.7 2.61a3.84 3.84 0 0 0 4.67-.5c.82-.84 1.19-2.03 1.12-3.2V.02h2.22z"/></svg>
-                TikTok
-            </a>` : ''}
-            
-            ${email ? `
-            <a href="mailto:${email}" class="glass px-4 py-2.5 rounded-xl text-xs font-bold inline-flex items-center gap-2 transition-all">
-                <svg class="w-3.5 h-3.5" style="color: ${iconColors.em}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                Email
-            </a>` : ''}
+            ${ig ? `<a href="${ig}" target="_blank" class="glass px-4 py-2.5 rounded-xl text-xs font-bold inline-flex items-center gap-2 transition-all">Instagram</a>` : ''}
+            ${tw ? `<a href="${tw}" target="_blank" class="glass px-4 py-2.5 rounded-xl text-xs font-bold inline-flex items-center gap-2 transition-all">Twitter</a>` : ''}
+            ${gh ? `<a href="${gh}" target="_blank" class="glass px-4 py-2.5 rounded-xl text-xs font-bold inline-flex items-center gap-2 transition-all">GitHub</a>` : ''}
+            ${tk ? `<a href="${tk}" target="_blank" class="glass px-4 py-2.5 rounded-xl text-xs font-bold inline-flex items-center gap-2 transition-all">TikTok</a>` : ''}
+            ${email ? `<a href="mailto:${email}" class="glass px-4 py-2.5 rounded-xl text-xs font-bold inline-flex items-center gap-2 transition-all">Email</a>` : ''}
         </div>
 
         <div class="text-left max-w-xl mx-auto">
@@ -166,7 +136,7 @@ export default function PortfolioBuilder() {
                 <a href="${p.link}" target="_blank" class="glass card-hover p-4 rounded-xl block transition-all group">
                     <div class="flex justify-between items-center">
                         <div>
-                            <h3 class="text-sm font-bold transition-colors">${p.title}</h3>
+                            <h3 class="text-sm font-bold text-white group-hover:text-purple-400 transition-colors">${p.title}</h3>
                             <p class="text-[11px] text-slate-500 truncate max-w-xs sm:max-w-md mt-0.5">${p.link}</p>
                         </div>
                         <span class="text-slate-600 text-sm">&rarr;</span>

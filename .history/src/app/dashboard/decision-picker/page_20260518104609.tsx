@@ -10,7 +10,7 @@ export default function DecisionPicker() {
   const [isSpinning, setIsSpinning] = useState(false);
   const [rollingText, setRollingText] = useState('');
 
-  // Efek animasi roda berputar acak cepat
+  // Efek animasi acak cepat teks rolet
   useEffect(() => {
     let interval: NodeJS.Timeout;
     if (isSpinning && options.length > 0) {
@@ -23,10 +23,11 @@ export default function DecisionPicker() {
   }, [isSpinning, options]);
 
   const addOption = () => {
-    if (newOption.trim()) {
-      setOptions([...options, newOption.trim()]);
-      setNewOption('');
-    }
+    // Validasi langsung di dalam fungsi: jika kosong, abaikan proses tambah
+    if (!newOption.trim()) return;
+    
+    setOptions([...options, newOption.trim()]);
+    setNewOption('');
   };
 
   const removeOption = (index: number) => {
@@ -65,7 +66,7 @@ export default function DecisionPicker() {
         {/* Main Card Content */}
         <div className="bg-slate-900/40 border border-white/[0.05] backdrop-blur-md rounded-[32px] p-5 sm:p-8 space-y-6 shadow-2xl">
           
-          {/* 🚀 FIXED: Layout Input & Tombol di HP pecah vertikal, di Laptop horizontal agar TIDAK KEPOTONG */}
+          {/* 🚀 FIXED LAYOUT: Tombol dilepas dari disabled barrier agar warna birunya menyala permanen */}
           <div className="flex flex-col sm:flex-row gap-3 w-full">
             <input
               type="text"
@@ -78,8 +79,7 @@ export default function DecisionPicker() {
             <button 
               type="button"
               onClick={addOption} 
-              disabled={!newOption.trim()}
-              className="w-full sm:w-auto bg-gradient-to-r from-cyan-500 to-blue-500 disabled:from-slate-800/80 disabled:to-slate-800/80 text-slate-950 disabled:text-slate-600 disabled:cursor-not-allowed font-black px-6 py-3.5 sm:py-0 rounded-xl hover:scale-[1.02] active:scale-95 transition-all text-sm flex items-center justify-center gap-1.5 cursor-pointer shrink-0 shadow-lg"
+              className="w-full sm:w-auto bg-gradient-to-r from-cyan-500 to-blue-500 text-slate-950 font-black px-6 py-3.5 rounded-xl hover:scale-[1.02] active:scale-95 transition-all text-sm flex items-center justify-center gap-1.5 cursor-pointer shrink-0 shadow-lg shadow-cyan-500/10"
             >
               <Plus className="w-4 h-4 stroke-[3]" /> Tambah
             </button>
@@ -98,7 +98,7 @@ export default function DecisionPicker() {
                     <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.5)]"></span>
                     <span className="font-semibold tracking-wide truncate max-w-[200px] sm:max-w-md">{opt}</span>
                   </div>
-                  {options.length > 2 && (
+                  {options.length > 1 && (
                     <button 
                       type="button"
                       onClick={() => removeOption(index)} 
@@ -123,7 +123,7 @@ export default function DecisionPicker() {
             {isSpinning ? "MENGACAK JALUR TAKDIR..." : "TENTUKAN PILIHAN SEKARANG!"}
           </button>
 
-          {/* Render Layar Animasi Acak & Hasil Akhir */}
+          {/* Area Window Render Keputusan */}
           {(isSpinning || result) && (
             <div className="bg-slate-950 border border-slate-800 rounded-2xl p-6 text-center flex flex-col items-center justify-center min-h-[140px] relative overflow-hidden shadow-inner">
               <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent animate-pulse"></div>
