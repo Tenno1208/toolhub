@@ -1,16 +1,16 @@
 "use client";
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageSquare, X, Send, Bot, User, RefreshCw, Sparkles } from 'lucide-react';
+import { X, Send, Bot, RefreshCw, Sparkles, HelpCircle, EyeOff } from 'lucide-react';
 
 export default function AIChatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPresets, setShowPresets] = useState(true); // 🚀 INOVASI 1: State Kendali Toggle Preset
   const [messages, setMessages] = useState([
     { role: 'assistant', text: 'Halo! Saya AI Assistant ToolHub Tools. Ada yang bisa saya bantu untuk produktivitas Anda hari ini? 🤖' }
   ]);
   
-  // Daftar Preset Pertanyaan untuk Memudahkan User (Sesuai Gambar)
   const presets = [
     "Cara pakai Portfolio Builder?",
     "Download video TikTok unik?",
@@ -23,11 +23,14 @@ export default function AIChatbot() {
   const chatEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, loading]);
+    if (isOpen) {
+      chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages, loading, isOpen, showPresets]);
 
-  // Fungsi Inti Pengiriman Pesan ke API
   const sendMessageToAPI = async (textToSend: string) => {
+    // Optimasi: Sembunyikan panel rekomendasi otomatis setelah user mulai bertanya
+    setShowPresets(false);
     setMessages(prev => [...prev, { role: 'user', text: textToSend }]);
     setLoading(true);
 
@@ -73,7 +76,11 @@ export default function AIChatbot() {
         body: JSON.stringify({ 
           message: textToSend,
           context: webContext,
-          history: messages.slice(-6)
+          // 🚀 INOVASI 2: Map history secara aman agar dibaca seragam oleh API Gemini
+          history: messages.map(msg => ({
+            role: msg.role === 'user' ? 'user' : 'model',
+            text: msg.text
+          })).slice(-6)
         })
       });
 
@@ -102,7 +109,7 @@ export default function AIChatbot() {
   return (
     <div className="fixed bottom-6 right-6 z-[999] font-sans select-none">
       
-      {/* 1. TOMBOL TOGGLE CHATBOT (Dipastikan Melayang Paling Depan) */}
+      {/* 1. TOMBOL TOGGLE CHATBOT */}
       {!isOpen && (
         <button 
           onClick={() => setIsOpen(true)}
@@ -130,12 +137,26 @@ export default function AIChatbot() {
                 </p>
               </div>
             </div>
-            <button onClick={() => setIsOpen(false)} className="p-1.5 hover:bg-white/5 rounded-lg text-slate-500 hover:text-white transition-colors cursor-pointer">
-              <X className="w-4 h-4" />
-            </button>
+            
+            {/* Nav Menu Kanan Header */}
+            <div className="flex items-center gap-1">
+              {/* Tombol memicu kembalinya panel rekomendasi pertanyaan jika tersembunyi */}
+              {!showPresets && (
+                <button 
+                  onClick={() => setShowPresets(true)} 
+                  className="p-1.5 hover:bg-white/5 rounded-lg text-slate-400 hover:text-purple-400 transition-colors cursor-pointer"
+                  title="Tampilkan Rekomendasi"
+                >
+                  <HelpCircle className="w-4 h-4" />
+                </button>
+              )}
+              <button onClick={() => setIsOpen(false)} className="p-1.5 hover:bg-white/5 rounded-lg text-slate-500 hover:text-white transition-colors cursor-pointer">
+                <X className="w-4 h-4" />
+              </button>
+            </div>
           </div>
 
-          {/* Area Pesan */}
+          {/* Area Log Bubble Pesan */}
           <div className="flex-grow p-4 overflow-y-auto space-y-3 bg-slate-950/20 scrollbar-none">
             {messages.map((msg, index) => (
               <div key={index} className={`flex gap-2.5 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
@@ -144,7 +165,7 @@ export default function AIChatbot() {
                     <Bot className="w-3.5 h-3.5" />
                   </div>
                 )}
-                <div className={`max-w-[75%] px-3.5 py-2.5 rounded-2xl text-xs leading-relaxed ${
+                <div className={`max-w-[75%] px-3.5 py-2.5 rounded-2xl text-xs leading-relaxed break-words whitespace-pre-wrap ${
                   msg.role === 'user' 
                     ? 'bg-purple-600 text-white rounded-tr-none' 
                     : 'bg-slate-900 border border-white/5 text-slate-300 rounded-tl-none'
@@ -162,35 +183,44 @@ export default function AIChatbot() {
             <div ref={chatEndRef} />
           </div>
 
-          {/* --- PANEL PRESET PERTANYAAN (Muncul Sebelum Input Jika Sedang Tidak Loading) --- */}
-          {!loading && (
-            <div className="px-3 pt-2 pb-1 bg-slate-950/40 border-t border-white/[0.02] flex flex-wrap gap-1.5 justify-start">
-              {presets.map((preset, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={() => sendMessageToAPI(preset)}
-                  className="text-[10px] font-medium bg-slate-900 border border-white/5 text-purple-400 hover:text-white hover:bg-purple-600/20 rounded-lg px-2.5 py-1.5 transition-all cursor-pointer text-left flex items-center gap-1"
+          {/* 🚀 INOVASI 3: PANEL PRESET PERTANYAAN ADAPTIF (BISA DITUTUP TOTAL) */}
+          {showPresets && !loading && (
+            <div className="px-3 pt-2.5 pb-2 bg-slate-950/60 border-t border-white/[0.04] animate-in slide-in-from-bottom-2 duration-150">
+              <div className="flex items-center justify-between px-1 mb-1.5">
+                <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-1">
+                  <Sparkles className="w-3 h-3 text-purple-400 animate-pulse" /> Rekomendasi Topik:
+                </span>
+                <button 
+                  type="button" 
+                  onClick={() => setShowPresets(false)}
+                  className="text-[10px] text-slate-500 hover:text-rose-400 flex items-center gap-0.5 transition-colors cursor-pointer font-bold"
                 >
-                  <Sparkles className="w-3 h-3 shrink-0 text-purple-500" />
-                  {preset}
+                  <EyeOff className="w-3 h-3" /> Sembunyikan
                 </button>
-              ))}
+              </div>
+              <div className="flex flex-wrap gap-1.5 max-h-[105px] overflow-y-auto scrollbar-none">
+                {presets.map((preset, idx) => (
+                  <button
+                    key={idx} type="button" onClick={() => sendMessageToAPI(preset)}
+                    className="text-[10px] font-medium bg-slate-900/90 border border-white/5 text-purple-300 hover:text-white hover:bg-purple-600/25 rounded-lg px-2.5 py-1.5 transition-all cursor-pointer text-left flex items-center gap-1 max-w-full truncate"
+                  >
+                    <span className="w-1 h-1 rounded-full bg-purple-500 shrink-0"></span>
+                    <span className="truncate">{preset}</span>
+                  </button>
+                ))}
+              </div>
             </div>
           )}
 
-          {/* Input Form */}
-          <form onSubmit={handleFormSubmit} className="p-3 bg-slate-950/60 border-t border-white/5 flex gap-2 items-center">
+          {/* Input Form Textarea Footer */}
+          <form onSubmit={handleFormSubmit} className="p-3 bg-slate-950/80 border-t border-white/5 flex gap-2 items-center">
             <input 
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
+              type="text" value={input} onChange={(e) => setInput(e.target.value)}
               placeholder="Tanya sesuatu tentang tools ini..."
               className="flex-grow bg-slate-900 border border-white/5 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-purple-500"
             />
             <button 
-              type="submit"
-              disabled={!input.trim() || loading}
+              type="submit" disabled={!input.trim() || loading}
               className="p-2.5 bg-purple-600 hover:bg-purple-700 disabled:bg-slate-900 disabled:text-slate-700 text-white rounded-xl transition-all cursor-pointer shrink-0"
             >
               <Send className="w-3.5 h-3.5" />

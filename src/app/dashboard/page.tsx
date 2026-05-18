@@ -6,7 +6,7 @@ import {
   Briefcase, Terminal, Wrench, ShieldAlert,
   Database, FileText, Code2, GitBranch, Binary, Smile, HelpCircle, Heart, Volume2, Sparkles,
   Layers, Flame, Users, Droplet, Percent, Activity,
-  CloudSun, DollarSign, PenTool, ScanText, BrainCircuit, Hourglass, Utensils, Wallet, Landmark,Scale
+  CloudSun, DollarSign, PenTool, ScanText, BrainCircuit, Hourglass, Utensils, Wallet, Landmark, Scale
 } from 'lucide-react';
 import Link from 'next/link';
 import Footer from '@/components/Footer'; 
@@ -31,7 +31,7 @@ const InstagramDashboardIcon = () => (
 
 // =========================================================================
 
-// Data Database Tools Lengkap (Pas Berjumlah 37 Tools Tanpa Typo)
+// Data Database Tools Lengkap (Pas Berjumlah 44 Tools Tanpa Typo)
 const tools = [
   // --- Kategori: Developer & Security ---
   { id: 1, name: 'Base64', icon: <Hash className="w-7 h-7" />, path: '/base64', category: 'Developer & Security' },
@@ -66,7 +66,8 @@ const tools = [
   { id: 17, name: 'Portfolio Builder', icon: <Briefcase className="w-7 h-7" />, path: '/portfolio-builder', category: 'Productivity & Essentials' },
 
   // --- Kategori: Fun & Utilities ---
-  { id: 23, name: 'Teks Alay', icon: <Sparkles className="w-7 h-7 text-purple-400" />, path: '/alay', category: 'Fun & Utilities' },
+  // 🚀 FIXED: Mengubah "Teks Alay" menjadi "Pembuat Kata" (AI Quote Generator)
+  { id: 23, name: 'Pembuat Kata', icon: <Sparkles className="w-7 h-7 text-purple-400" />, path: '/alay', category: 'Fun & Utilities' },
   { id: 24, name: 'Keputusan Mutlak', icon: <HelpCircle className="w-7 h-7 text-cyan-400" />, path: '/decision-picker', category: 'Fun & Utilities' },
   { id: 25, name: 'Glass Generator', icon: <Layers className="w-7 h-7 text-amber-400" />, path: '/glass-generator', category: 'Fun & Utilities' },
   { id: 26, name: 'Kalkulator Jodoh', icon: <Heart className="w-7 h-7 text-rose-400" />, path: '/love-calc', category: 'Fun & Utilities' },
@@ -78,8 +79,6 @@ const tools = [
   { id: 32, name: 'BMR & TDEE', icon: <Flame className="w-7 h-7 text-orange-400" />, path: '/bmr-tdee', category: 'Fun & Utilities' },
   { id: 37, name: 'Cek Cuaca', icon: <CloudSun className="w-7 h-7 text-amber-400" />, path: '/weather-info', category: 'Fun & Utilities' },
   { id: 38, name: 'Konversi Kurs', icon: <DollarSign className="w-7 h-7 text-emerald-400" />, path: '/currency-conv', category: 'Fun & Utilities' },
-  
-  // 🚀 FIXED: Memasukkan kembali 5 tools gaya hidup yang sempat tertinggal
   { id: 39, name: 'Meal Planner', icon: <Utensils className="w-7 h-7 text-orange-400" />, path: '/meal-planner', category: 'Fun & Utilities' },
   { id: 40, name: 'Countdown', icon: <Hourglass className="w-7 h-7 text-fuchsia-400" />, path: '/countdown', category: 'Fun & Utilities' },
   { id: 41, name: 'Pomodoro', icon: <BrainCircuit className="w-7 h-7 text-teal-400" />, path: '/pomodoro', category: 'Fun & Utilities' },
@@ -124,14 +123,14 @@ export default function Dashboard() {
             TOOLHUB TOOLS ECOSYSTEM
           </div>
 
-          {/* Subtitle / Deskripsi List Atas (🚀 UPDATED DESCRIPTION DESCRIPTION) */}
-          <p className="text-xs sm:text-sm font-mono text-slate-500 mb-2 uppercase tracking-widest">
-            Portfolio Generator | TikTok Downloader | 37 Tools | AI Assistant
-          </p>
+          {/* Subtitle / Deskripsi List Atas */}
+          <div className="text-xs sm:text-sm font-mono text-slate-500 mb-2 uppercase tracking-widest">
+            Portfolio Generator | TikTok Downloader | 44 Tools | AI Assistant
+          </div>
 
           {/* Headline Utama */}
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight mb-6">
-            Mau pakai <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-cyan-400">alat apa</span> hari ini?
+            {greeting}, mau pakai <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-cyan-400">alat apa</span> hari ini le?
           </h1>
 
           {/* Input Search Field */}
