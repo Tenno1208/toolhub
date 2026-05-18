@@ -7,7 +7,6 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import Footer from '@/components/Footer'; // Mengimpor komponen footer terpisah
-import AIChatbot from '@/components/AIChatbot';
 
 // =========================================================================
 // 🛡️ NATIVE BRAND SVG ICONS FOR DASHBOARD CARD (Bypass generic icons)
@@ -163,7 +162,6 @@ export default function Dashboard() {
       </div>
 
       <Footer />
-      <AIChatbot />
     </div>
   );
 }

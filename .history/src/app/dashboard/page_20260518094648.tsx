@@ -163,7 +163,6 @@ export default function Dashboard() {
       </div>
 
       <Footer />
-      <AIChatbot />
     </div>
   );
 }

@@ -74,7 +74,7 @@ export default function PortfolioBuilder() {
     setProjects(updated);
   };
 
-  // --- HTML GENERATOR (Sekarang dengan Logo SVG Resmi di Hasil Website-nya) ---
+  // --- HTML GENERATOR ---
   const generateHTML = () => {
     return `<!DOCTYPE html>
 <html lang="id">
@@ -90,7 +90,6 @@ export default function PortfolioBuilder() {
 </head>
 <body class="min-h-screen py-20 px-6">
     <div class="max-w-2xl mx-auto text-center">
-        
         <div class="mb-8 flex justify-center">
             ${profilePhoto ? `<img src="${profilePhoto}" class="w-32 h-32 rounded-full object-cover border-4 border-purple-500/20 shadow-2xl">` : 
             `<div class="w-32 h-32 rounded-full bg-slate-800 flex items-center justify-center border-4 border-white/5"><svg class="w-16 h-16 text-slate-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div>`}
@@ -98,57 +97,33 @@ export default function PortfolioBuilder() {
 
         <h1 class="text-4xl font-black mb-2 text-white">${name}</h1>
         <p class="text-purple-400 font-bold mb-4">${role}</p>
-        <p class="text-slate-400 mb-8 leading-relaxed max-w-lg mx-auto">${about}</p>
+        <p class="text-slate-400 mb-8 leading-relaxed">${about}</p>
 
         <div class="flex flex-wrap justify-center gap-3 mb-12">
-            ${ig ? `
-            <a href="${ig}" target="_blank" class="glass px-4 py-2.5 rounded-xl text-xs font-medium hover:bg-white/5 transition-all inline-flex items-center gap-2 text-slate-300 hover:text-white">
-                <svg class="w-4 h-4 text-pink-500" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37zM17.5 6.5h.01"/></svg>
-                Instagram
-            </a>` : ''}
-            
-            ${tw ? `
-            <a href="${tw}" target="_blank" class="glass px-4 py-2.5 rounded-xl text-xs font-medium hover:bg-white/5 transition-all inline-flex items-center gap-2 text-slate-300 hover:text-white">
-                <svg class="w-3.5 h-3.5 text-sky-400" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                Twitter
-            </a>` : ''}
-            
-            ${gh ? `
-            <a href="${gh}" target="_blank" class="glass px-4 py-2.5 rounded-xl text-xs font-medium hover:bg-white/5 transition-all inline-flex items-center gap-2 text-slate-300 hover:text-white">
-                <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.068.069-.068 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" /></svg>
-                GitHub
-            </a>` : ''}
-            
-            ${tk ? `
-            <a href="${tk}" target="_blank" class="glass px-4 py-2.5 rounded-xl text-xs font-medium hover:bg-white/5 transition-all inline-flex items-center gap-2 text-slate-300 hover:text-white">
-                <svg class="w-3.5 h-3.5 text-cyan-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.05 1.62 4.2 1.07 1.15 2.52 1.84 4.05 2.05v3.63c-1.68-.05-3.32-.59-4.73-1.53a7.46 7.46 0 0 1-2.31-2.43v9.06c.03 1.14-.14 2.29-.53 3.37A7.472 7.472 0 0 1 8.01 23.8a7.34 7.34 0 0 1-5.18-1.54 7.488 7.488 0 0 1-2.73-5.59c-.06-1.46.33-2.93 1.11-4.17 1.01-1.54 2.61-2.61 4.41-2.96v3.7c-.85.16-1.65.61-2.22 1.28-.61.76-.88 1.73-.75 2.69.13 1.09.77 2.07 1.7 2.61a3.84 3.84 0 0 0 4.67-.5c.82-.84 1.19-2.03 1.12-3.2V.02h2.22z"/></svg>
-                TikTok
-            </a>` : ''}
-            
-            ${email ? `
-            <a href="mailto:${email}" class="glass px-4 py-2.5 rounded-xl text-xs font-medium hover:bg-white/5 transition-all inline-flex items-center gap-2 text-slate-300 hover:text-white">
-                <svg class="w-3.5 h-3.5 text-purple-400" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                Email
-            </a>` : ''}
+            ${ig ? `<a href="${ig}" target="_blank" class="glass px-4 py-2 rounded-xl text-sm hover:bg-white/5 transition-all">Instagram</a>` : ''}
+            ${tw ? `<a href="${tw}" target="_blank" class="glass px-4 py-2 rounded-xl text-sm hover:bg-white/5 transition-all">Twitter</a>` : ''}
+            ${gh ? `<a href="${gh}" target="_blank" class="glass px-4 py-2 rounded-xl text-sm hover:bg-white/5 transition-all">GitHub</a>` : ''}
+            ${tk ? `<a href="${tk}" target="_blank" class="glass px-4 py-2 rounded-xl text-sm hover:bg-white/5 transition-all">TikTok</a>` : ''}
+            ${email ? `<a href="mailto:${email}" class="glass px-4 py-2 rounded-xl text-sm hover:bg-white/5 transition-all">Email</a>` : ''}
         </div>
 
-        <div class="text-left max-w-xl mx-auto">
-            <h2 class="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-4 px-1">Karya & Project</h2>
-            <div class="space-y-3">
+        <div class="text-left">
+            <h2 class="text-xs font-bold uppercase tracking-widest text-slate-500 mb-6 px-2">Karya & Project</h2>
+            <div class="space-y-4">
                 ${projects.map(p => p.title ? `
-                <a href="${p.link}" target="_blank" class="glass p-4 rounded-xl block hover:border-purple-500/20 transition-all group">
+                <a href="${p.link}" target="_blank" class="glass p-5 rounded-2xl block hover:border-purple-500/30 transition-all group">
                     <div class="flex justify-between items-center">
                         <div>
-                            <h3 class="text-sm font-bold text-white group-hover:text-purple-400 transition-colors">${p.title}</h3>
-                            <p class="text-[11px] text-slate-500 truncate max-w-xs sm:max-w-md mt-0.5">${p.link}</p>
+                            <h3 class="font-bold text-white group-hover:text-purple-400 transition-colors">${p.title}</h3>
+                            <p class="text-xs text-slate-500 truncate max-w-xs">${p.link}</p>
                         </div>
-                        <span class="text-slate-600 group-hover:text-purple-400 transition-transform group-hover:translate-x-1 duration-200 text-sm">&rarr;</span>
+                        <span class="text-slate-600 group-hover:text-purple-400">&rarr;</span>
                     </div>
                 </a>` : '').join('')}
             </div>
         </div>
 
-        <footer class="mt-20 text-[9px] text-slate-600 font-mono tracking-widest uppercase">
+        <footer class="mt-20 text-[10px] text-slate-600 font-mono tracking-widest uppercase">
             Built with ToolHub By ${name}
         </footer>
     </div>

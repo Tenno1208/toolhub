@@ -7,7 +7,6 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import Footer from '@/components/Footer'; // Mengimpor komponen footer terpisah
-import AIChatbot from '@/components/AIChatbot';
 
 // =========================================================================
 // 🛡️ NATIVE BRAND SVG ICONS FOR DASHBOARD CARD (Bypass generic icons)
@@ -86,7 +85,7 @@ export default function Dashboard() {
           {/* Badge Branding Baru Sesuai Gambar */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs sm:text-sm font-bold mb-5 backdrop-blur-sm tracking-wide">
             <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse"></span>
-            TOOLHUB TOOLS ECOSYSTEM
+            RFF707 TOOLS ECOSYSTEM
           </div>
 
           {/* Subtitle / Deskripsi List Atas */}
@@ -163,7 +162,6 @@ export default function Dashboard() {
       </div>
 
       <Footer />
-      <AIChatbot />
     </div>
   );
 }

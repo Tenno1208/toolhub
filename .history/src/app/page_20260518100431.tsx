@@ -1,12 +1,11 @@
 "use client";
 import Link from 'next/link';
-import { ArrowRight, Zap, Shield, Layout, Terminal, Sparkles, Stars } from 'lucide-react';
+import { ArrowRight, Zap, Shield, Layout, Terminal, Sparkles, Stars, Layers } from 'lucide-react';
 import Footer from '@/components/Footer'; // Import komponen Footer baru
 
 export default function LandingPage() {
   return (
-    // 🚀 FIXED: Menambahkan pt-32 agar konten awal turun ke bawah jarak aman header melayang
-    <div className="min-h-screen flex flex-col bg-slate-950 relative overflow-hidden select-none font-sans pt-32">
+    <div className="min-h-screen flex flex-col bg-slate-950 relative overflow-hidden select-none font-sans">
       
       {/* --- BACKGROUND AMBIENT GLOW ORNAMENTS --- */}
       <div className="absolute top-[-25%] left-1/2 -translate-x-1/2 w-[120vw] max-w-[1400px] h-[75vh] bg-gradient-to-b from-purple-500/20 via-indigo-500/5 to-transparent rounded-full blur-[160px] pointer-events-none"></div>
@@ -14,11 +13,11 @@ export default function LandingPage() {
       <div className="absolute bottom-[15%] right-[-15%] w-[500px] h-[500px] bg-fuchsia-500/5 rounded-full blur-[140px] pointer-events-none"></div>
 
       {/* --- PREMIUM UPCOMING ANNOUNCEMENT BANNER (VERSION 2.0.0 TEASER) --- */}
-      <div className="w-full z-20 px-4 mb-4 animate-in fade-in slide-in-from-top-3 duration-500">
+      <div className="w-full z-20 pt-6 px-4 animate-in fade-in slide-in-from-top-3 duration-500">
         <div className="max-w-4xl mx-auto bg-gradient-to-r from-purple-950/40 via-slate-900/90 to-indigo-950/40 border border-purple-500/20 backdrop-blur-xl rounded-2xl p-3.5 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left shadow-xl shadow-purple-950/20">
           <div className="flex flex-col sm:flex-row items-center gap-3">
             <div className="p-2 bg-gradient-to-br from-purple-500/20 to-indigo-500/20 border border-purple-500/30 rounded-xl shadow-inner">
-              <Stars className="w-4 h-4 text-purple-400" />
+              <Stars className="w-4 h-4 text-purple-400 animate-spin-slow" />
             </div>
             <div>
               <span className="inline-block bg-purple-500 text-white font-extrabold text-[10px] uppercase tracking-widest px-2 py-0.5 rounded-md mb-1 sm:mb-0 sm:mr-2">COMING SOON</span>
@@ -34,7 +33,7 @@ export default function LandingPage() {
       </div>
 
       {/* --- HERO SECTION --- */}
-      <div className="flex-grow max-w-5xl mx-auto px-6 pt-12 pb-20 text-center z-10 w-full flex flex-col justify-center items-center">
+      <div className="flex-grow max-w-5xl mx-auto px-6 pt-24 pb-20 text-center z-10 w-full flex flex-col justify-center items-center">
         
         {/* Active Production Version Badge */}
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/60 border border-white/[0.05] text-slate-300 text-xs sm:text-sm font-semibold mb-8 backdrop-blur-md shadow-lg shadow-black/40">
@@ -74,8 +73,7 @@ export default function LandingPage() {
         </div>
 
         {/* --- LUXURY FEATURES DISPLAY GRID --- */}
-        {/* 🚀 FIXED: Menambahkan scroll-mt-32 agar saat scroll anchor ke sini tidak tertutup header */}
-        <div id="features" className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-36 text-left w-full scroll-mt-32">
+        <div id="features" className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-36 text-left w-full">
           
           {/* Card 1: Performa */}
           <div className="group bg-slate-900/20 border border-white/[0.03] p-8 rounded-[32px] backdrop-blur-md hover:bg-slate-900/60 hover:border-purple-500/20 transition-all duration-300 shadow-sm relative overflow-hidden">
@@ -117,7 +115,9 @@ export default function LandingPage() {
 
       </div>
 
+      {/* Menampilkan Footer di bagian paling bawah halaman Landing Page */}
       <Footer />
+
     </div>
   );
 }
