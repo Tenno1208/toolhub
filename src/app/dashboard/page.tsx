@@ -5,15 +5,11 @@ import {
   Image as ImageIcon, Fingerprint, Calculator, Globe, Calendar, Palette,
   Briefcase, Terminal, Wrench, ShieldAlert,
   Database, FileText, Code2, GitBranch, Binary, Smile, HelpCircle, Heart, Volume2, Sparkles,
-  Layers,
-  Flame,
-  Users,
-  Droplet,
-  Percent,
-  Activity
+  Layers, Flame, Users, Droplet, Percent, Activity,
+  CloudSun, DollarSign, PenTool, ScanText, BrainCircuit, Hourglass, Utensils, Wallet, Landmark,Scale
 } from 'lucide-react';
 import Link from 'next/link';
-import Footer from '@/components/Footer'; // Mengimpor komponen footer terpisah
+import Footer from '@/components/Footer'; 
 import AIChatbot from '@/components/AIChatbot';
 
 // =========================================================================
@@ -35,14 +31,13 @@ const InstagramDashboardIcon = () => (
 
 // =========================================================================
 
-// Data Database Tools Lengkap (Total Berjumlah 21 Tools Sesuai Deskripsi Header)
+// Data Database Tools Lengkap (Pas Berjumlah 37 Tools Tanpa Typo)
 const tools = [
   // --- Kategori: Developer & Security ---
   { id: 1, name: 'Base64', icon: <Hash className="w-7 h-7" />, path: '/base64', category: 'Developer & Security' },
   { id: 3, name: 'Password', icon: <Lock className="w-7 h-7" />, path: '/password', category: 'Developer & Security' },
   { id: 5, name: 'JSON Formatter', icon: <FileJson className="w-7 h-7" />, path: '/json', category: 'Developer & Security' },
   { id: 10, name: 'SHA256', icon: <Fingerprint className="w-7 h-7" />, path: '/sha256', category: 'Developer & Security' },
-  // 🚀 Tambahan 5 Tools Developer Baru
   { id: 18, name: 'SQL Formatter', icon: <Database className="w-7 h-7" />, path: '/sql-format', category: 'Developer & Security' },
   { id: 19, name: 'MD Live Editor', icon: <FileText className="w-7 h-7" />, path: '/markdown-editor', category: 'Developer & Security' },
   { id: 20, name: 'SVG to JSX', icon: <Code2 className="w-7 h-7" />, path: '/svg-to-jsx', category: 'Developer & Security' },
@@ -56,6 +51,10 @@ const tools = [
   { id: 14, name: 'Color Picker', icon: <Palette className="w-7 h-7" />, path: '/color', category: 'Media & Utilities' },
   { id: 15, name: 'TikTok Downloader', icon: <TikTokDashboardIcon />, path: '/tiktok-dl', category: 'Media & Utilities' }, 
   { id: 16, name: 'Instagram Downloader', icon: <InstagramDashboardIcon />, path: '/ig-dl', category: 'Media & Utilities' }, 
+  { id: 33, name: 'Signature Pad', icon: <PenTool className="w-7 h-7" />, path: '/sig-pad', category: 'Media & Utilities' },
+  { id: 34, name: 'Pengekstrak Teks', icon: <ScanText className="w-7 h-7" />, path: '/txt-ocr', category: 'Media & Utilities' },
+  { id: 35, name: 'PDF Tools', icon: <Layers className="w-7 h-7" />, path: '/pdf-tools', category: 'Media & Utilities' },
+  { id: 36, name: 'BG Remover', icon: <ImageIcon className="w-7 h-7" />, path: '/bg-remover', category: 'Media & Utilities' },
   
   // --- Kategori: Productivity & Essentials ---
   { id: 2, name: 'Word Count', icon: <Type className="w-7 h-7" />, path: '/word-count', category: 'Productivity & Essentials' },
@@ -66,26 +65,34 @@ const tools = [
   { id: 13, name: 'Age Calc', icon: <Calendar className="w-7 h-7" />, path: '/age', category: 'Productivity & Essentials' },
   { id: 17, name: 'Portfolio Builder', icon: <Briefcase className="w-7 h-7" />, path: '/portfolio-builder', category: 'Productivity & Essentials' },
 
-  // --- Kategori: Fun & Utilities (5 Tools Receh Baru) ---
+  // --- Kategori: Fun & Utilities ---
   { id: 23, name: 'Teks Alay', icon: <Sparkles className="w-7 h-7 text-purple-400" />, path: '/alay', category: 'Fun & Utilities' },
   { id: 24, name: 'Keputusan Mutlak', icon: <HelpCircle className="w-7 h-7 text-cyan-400" />, path: '/decision-picker', category: 'Fun & Utilities' },
   { id: 25, name: 'Glass Generator', icon: <Layers className="w-7 h-7 text-amber-400" />, path: '/glass-generator', category: 'Fun & Utilities' },
   { id: 26, name: 'Kalkulator Jodoh', icon: <Heart className="w-7 h-7 text-rose-400" />, path: '/love-calc', category: 'Fun & Utilities' },
   { id: 27, name: 'Meme Soundboard', icon: <Volume2 className="w-7 h-7 text-indigo-400" />, path: '/meme-sound', category: 'Fun & Utilities' },
-
-  // Tambahkan 5 objek ini di dalam array tools dashboard kamu:
-    { id: 28, name: 'Kalkulator BMI', icon: <Activity className="w-7 h-7 text-emerald-400" />, path: '/bmi-calc', category: 'Fun & Utilities' },
-    { id: 29, name: 'Kalkulator Diskon', icon: <Percent className="w-7 h-7 text-amber-400" />, path: '/discount-calc', category: 'Fun & Utilities' },
-    { id: 30, name: 'Split Bill', icon: <Users className="w-7 h-7 text-cyan-400" />, path: '/split-bill', category: 'Fun & Utilities' },
-    { id: 31, name: 'Water Tracker', icon: <Droplet className="w-7 h-7 text-blue-400" />, path: '/water-tracker', category: 'Fun & Utilities' },
-    { id: 32, name: 'BMR & TDEE', icon: <Flame className="w-7 h-7 text-orange-400" />, path: '/bmr-tdee', category: 'Fun & Utilities' }
+  { id: 28, name: 'Kalkulator BMI', icon: <Activity className="w-7 h-7 text-emerald-400" />, path: '/bmi-calc', category: 'Fun & Utilities' },
+  { id: 29, name: 'Kalkulator Diskon', icon: <Percent className="w-7 h-7 text-amber-400" />, path: '/discount-calc', category: 'Fun & Utilities' },
+  { id: 30, name: 'Split Bill', icon: <Users className="w-7 h-7 text-cyan-400" />, path: '/split-bill', category: 'Fun & Utilities' },
+  { id: 31, name: 'Water Tracker', icon: <Droplet className="w-7 h-7 text-blue-400" />, path: '/water-tracker', category: 'Fun & Utilities' },
+  { id: 32, name: 'BMR & TDEE', icon: <Flame className="w-7 h-7 text-orange-400" />, path: '/bmr-tdee', category: 'Fun & Utilities' },
+  { id: 37, name: 'Cek Cuaca', icon: <CloudSun className="w-7 h-7 text-amber-400" />, path: '/weather-info', category: 'Fun & Utilities' },
+  { id: 38, name: 'Konversi Kurs', icon: <DollarSign className="w-7 h-7 text-emerald-400" />, path: '/currency-conv', category: 'Fun & Utilities' },
+  
+  // 🚀 FIXED: Memasukkan kembali 5 tools gaya hidup yang sempat tertinggal
+  { id: 39, name: 'Meal Planner', icon: <Utensils className="w-7 h-7 text-orange-400" />, path: '/meal-planner', category: 'Fun & Utilities' },
+  { id: 40, name: 'Countdown', icon: <Hourglass className="w-7 h-7 text-fuchsia-400" />, path: '/countdown', category: 'Fun & Utilities' },
+  { id: 41, name: 'Pomodoro', icon: <BrainCircuit className="w-7 h-7 text-teal-400" />, path: '/pomodoro', category: 'Fun & Utilities' },
+  { id: 42, name: 'Budget Planner', icon: <Wallet className="w-7 h-7 text-emerald-400" />, path: '/budget-planner', category: 'Fun & Utilities' },
+  { id: 43, name: 'Kalkulator Kredit', icon: <Landmark className="w-7 h-7 text-amber-400" />, path: '/loan-calc', category: 'Fun & Utilities' },
+  { id: 44, name: 'Konverter Satuan', icon: <Scale className="w-7 h-7 text-blue-400" />, path: '/unit-converter', category: 'Fun & Utilities' }
 ];
 
 const categories = [
   { name: 'Developer & Security', icon: <Terminal className="w-4 h-4 text-purple-400" /> },
   { name: 'Media & Utilities', icon: <Wrench className="w-4 h-4 text-cyan-400" /> },
   { name: 'Productivity & Essentials', icon: <Briefcase className="w-4 h-4 text-indigo-400" /> },
-  { name: 'Fun & Utilities', icon: <Smile className="w-4 h-4 text-amber-400" /> } // Menambahkan header kategori receh
+  { name: 'Fun & Utilities', icon: <Smile className="w-4 h-4 text-amber-400" /> }
 ];
 
 export default function Dashboard() {
@@ -117,9 +124,9 @@ export default function Dashboard() {
             TOOLHUB TOOLS ECOSYSTEM
           </div>
 
-          {/* Subtitle / Deskripsi List Atas */}
+          {/* Subtitle / Deskripsi List Atas (🚀 UPDATED DESCRIPTION DESCRIPTION) */}
           <p className="text-xs sm:text-sm font-mono text-slate-500 mb-2 uppercase tracking-widest">
-            Portfolio Generator | TikTok Downloader | 21 Tools | AI Assistant
+            Portfolio Generator | TikTok Downloader | 37 Tools | AI Assistant
           </p>
 
           {/* Headline Utama */}
