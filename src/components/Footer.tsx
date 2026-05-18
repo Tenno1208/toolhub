@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Layers } from 'lucide-react';
+import { Layers, HelpCircle } from 'lucide-react'; // 🚀 Tambah HelpCircle
 
 export default function Footer() {
   return (
@@ -18,11 +18,17 @@ export default function Footer() {
         </div>
 
         {/* Sisi Tengah/Kanan: Informasi Status Proyek */}
-        <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs font-medium text-slate-400">
-          <span className="flex items-center gap-1.5 text-orange-400">
+        <div className="flex flex-wrap justify-center items-center gap-x-5 gap-y-2 text-xs font-medium text-slate-400">
+          <span className="flex items-center gap-1.5 text-orange-400 mr-1">
             <span className="w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse"></span>
             Under Development
           </span>
+          
+          {/* 🚀 BARU: Link Dokumentasi Fitur Terintegrasi */}
+          <Link href="/dashboard/features" className="text-purple-400 hover:text-purple-300 transition-colors flex items-center gap-1">
+            <HelpCircle className="w-3.5 h-3.5" /> Dokumentasi Fitur
+          </Link>
+          
           <Link href="/dashboard" className="hover:text-white transition-colors">Dashboard App</Link>
           <a href="https://github.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">GitHub Repository</a>
         </div>

@@ -14,7 +14,10 @@ export default function AIChatbot() {
   const presets = [
     "Cara pakai Portfolio Builder?",
     "Download video TikTok unik?",
-    "Ada tools developer apa aja?"
+    "Ada tools developer apa aja?",
+    "Cara pakai PDF Merge & Split?",
+    "Bagaimana cara kerja AI OCR?",
+    "Bikin kata-kata motivasi Gym dong!"
   ];
 
   const chatEndRef = useRef<HTMLDivElement>(null);
@@ -30,13 +33,38 @@ export default function AIChatbot() {
 
     try {
       const webContext = `
-        Anda adalah AI Assistant resmi untuk website "TOOLHUB TOOLS" (sebuah ekosistem toolbox utilitas digital gratis dan modern).
-        Website ini memiliki 3 kategori utama dan tools berikut:
-        1. Developer & Security: Base64 Converter, Password Generator, JSON Formatter (bisa merapikan/minify JSON), SHA256 Encrypter.
-        2. Media & Utilities: QR Code Generator, Image Compressor, IP Info Tracker, Color Picker, TikTok Downloader (bisa download video tanpa watermark dengan nama file unik), Instagram Downloader (menggunakan SaveFrom engine untuk download reels/foto HD).
-        3. Productivity & Essentials: Word Count, Text Case, Stopwatch, To-Do List, Calculator, Age Calculator, dan Portfolio Builder (bisa membuat website portofolio instan dengan live preview dan langsung download file .html mandiri).
+        Anda adalah AI Assistant resmi untuk website "TOOLHUB TOOLS" (sebuah ekosistem toolbox utilitas digital gratis, modern, dan berkilau).
+        Website ini memiliki 3 kategori utama dengan tools canggih yang berjalan 100% aman di sisi lokal client (RAM browser):
         
-        Jawablah pertanyaan user dengan singkat, ramah, profesional, bernuansa teknologi, dan gunakan bahasa Indonesia yang joss. Jika user bertanya cara download atau membuat portofolio, arahkan mereka ke tool yang sesuai di web ini.
+        1. Developer & Security: 
+           - Base64 Converter
+           - Password Generator
+           - JSON Formatter (Merapikan/minify struktur data JSON)
+           - SHA256 Encrypter
+           - Signature Pad Digital (Membuat tanda tangan digital presisi dengan jari tangan di HP, unduh format .png transparan).
+        
+        2. Media & Utilities: 
+           - QR Code Generator
+           - Image Compressor
+           - IP Info Tracker
+           - Color Picker
+           - TikTok Downloader (Download video tanpa watermark dengan nama file unik)
+           - Instagram Downloader (Download reels/foto HD via SaveFrom engine)
+           - AI Text Extractor (Real-Time OCR berbasis neural network lokal untuk mengekstrak tulisan dari foto catatan, screenshot, atau buku cetak secara nyata).
+        
+        3. Productivity & Essentials: 
+           - Word Count
+           - Text Case
+           - Stopwatch
+           - To-Do List
+           - Calculator
+           - Age Calculator
+           - Portfolio Builder (Bikin website portofolio instan dengan live preview dan langsung download berkas .html)
+           - PDF Merge & Split Utility (Menggabungkan beberapa file PDF menjadi satu, atau memecah halaman dokumen PDF secara instan)
+           - AI Premium Quote & Caption Generator (Pembuat kata-kata mutiara otomatis berbasis AI untuk tema Sukses, Gym/Fitness, Anak Senja, Sindiran Savage, dan Galau Sadboy).
+        
+        Aturan Menjawab:
+        Jawablah pertanyaan user dengan singkat, padat, ramah, profesional, bernuansa teknologi modern, dan gunakan bahasa Indonesia yang joss. Jika user bertanya tentang PDF Merge, Split, OCR, atau Generator Kata, katakan dengan bangga bahwa tools tersebut SUDAH TERSEDIA dan arahkan mereka untuk menggunakannya di dashboard ToolHub le!
       `;
 
       const response = await fetch('/api/chat', {
