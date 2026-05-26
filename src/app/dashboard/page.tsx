@@ -6,7 +6,7 @@ import {
   Briefcase, Terminal, Wrench, ShieldAlert,
   Database, FileText, Code2, GitBranch, Binary, Smile, HelpCircle, Heart, Volume2, Sparkles,
   Layers, Flame, Users, Droplet, Percent, Activity,
-  CloudSun, DollarSign, PenTool, ScanText, BrainCircuit, Hourglass, Utensils, Wallet, Landmark, Scale
+  CloudSun, DollarSign, PenTool, ScanText, BrainCircuit, Hourglass, Utensils, Wallet, Landmark, Scale, Crown
 } from 'lucide-react';
 import Link from 'next/link';
 import Footer from '@/components/Footer'; 
@@ -79,7 +79,7 @@ const tools = [
   { id: 32, name: 'BMR & TDEE', icon: <Flame className="w-7 h-7 text-orange-400" />, path: '/bmr-tdee', category: 'Fun & Utilities' },
   { id: 37, name: 'Cek Cuaca', icon: <CloudSun className="w-7 h-7 text-amber-400" />, path: '/weather-info', category: 'Fun & Utilities' },
   { id: 38, name: 'Konversi Kurs', icon: <DollarSign className="w-7 h-7 text-emerald-400" />, path: '/currency-conv', category: 'Fun & Utilities' },
-  { id: 39, name: 'Meal Planner', icon: <Utensils className="w-7 h-7 text-orange-400" />, path: '/meal-planner', category: 'Fun & Utilities' },
+  { id: 39, name: 'NutriTracker AI', icon: <Utensils className="w-7 h-7 text-orange-400" />, path: '/meal-planner', category: 'Fun & Utilities' },
   { id: 40, name: 'Countdown', icon: <Hourglass className="w-7 h-7 text-fuchsia-400" />, path: '/countdown', category: 'Fun & Utilities' },
   { id: 41, name: 'Pomodoro', icon: <BrainCircuit className="w-7 h-7 text-teal-400" />, path: '/pomodoro', category: 'Fun & Utilities' },
   { id: 42, name: 'Budget Planner', icon: <Wallet className="w-7 h-7 text-emerald-400" />, path: '/budget-planner', category: 'Fun & Utilities' },
@@ -127,6 +127,14 @@ export default function Dashboard() {
           <div className="text-xs sm:text-sm font-mono text-slate-500 mb-2 uppercase tracking-widest">
             Portfolio Generator | TikTok Downloader | 44 Tools | AI Assistant
           </div>
+
+          <Link 
+            href="/dashboard/premium"
+            className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-gradient-to-r from-amber-500/10 via-amber-600/10 to-transparent border border-amber-500/30 hover:border-amber-400 rounded-xl text-amber-400 text-xs font-black tracking-wide font-mono uppercase shadow-md shadow-amber-500/5 hover:scale-[1.02] active:scale-95 transition-all cursor-pointer"
+          >
+            <Crown className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
+            <span>Buka 10 Tools Overpowered Premium</span>
+          </Link>
 
           {/* Headline Utama */}
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight mb-6">
