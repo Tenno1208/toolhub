@@ -1,108 +1,208 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, FileJson, Copy, Check, Minimize2, AlignLeft, AlertCircle } from 'lucide-react';
+import { ArrowLeft, FileJson, Copy, Check, Minimize2, AlignLeft, AlertCircle, Trash2, CheckCircle2, Sparkles } from 'lucide-react';
 
-export default function JsonTool() {
+export default function ElegantJsonWorkspace() {
   const [input, setInput] = useState('');
+  const [output, setOutput] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [isCopied, setIsCopied] = useState(false);
+  const [copied, setCopied] = useState(false);
 
-  const formatJson = () => {
+  // Proses validasi dan pemformatan otomatis secara real-time
+  useEffect(() => {
+    if (!input.trim()) {
+      setOutput('');
+      setError(null);
+      return;
+    }
+
+    const delayDebounce = setTimeout(() => {
+      try {
+        const parsed = JSON.parse(input);
+        setOutput(JSON.stringify(parsed, null, 2));
+        setError(null);
+      } catch (e: any) {
+        setOutput('');
+        setError(e.message || "Invalid JSON format");
+      }
+    }, 200); // Debounce untuk menjaga kenyamanan performa ketikan
+
+    return () => clearTimeout(delayDebounce);
+  }, [input]);
+
+  const handleMinify = () => {
     try {
       if (!input.trim()) return;
       const parsed = JSON.parse(input);
-      setInput(JSON.stringify(parsed, null, 2));
+      const minified = JSON.stringify(parsed);
+      setOutput(minified);
       setError(null);
     } catch (e: any) {
       setError(e.message || "Invalid JSON format");
     }
   };
 
-  const minifyJson = () => {
+  const handleFormat = () => {
     try {
       if (!input.trim()) return;
       const parsed = JSON.parse(input);
-      setInput(JSON.stringify(parsed));
+      setOutput(JSON.stringify(parsed, null, 2));
       setError(null);
     } catch (e: any) {
       setError(e.message || "Invalid JSON format");
     }
   };
 
-  const copyToClipboard = () => {
-    if (!input) return;
-    navigator.clipboard.writeText(input);
-    setIsCopied(true);
-    setTimeout(() => setIsCopied(false), 2000);
+  const handleCopy = () => {
+    if (!output) return;
+    navigator.clipboard.writeText(output);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleClear = () => {
+    setInput('');
+    setOutput('');
+    setError(null);
+  };
+
+  // Mengukur kapasitas memori bita berkas secara lokal
+  const getByteSize = (str: string) => {
+    return new TextEncoder().encode(str).length;
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 pt-24 pb-12 px-4 sm:px-8 text-slate-200">
-      <div className="max-w-5xl mx-auto">
+    <div className="min-h-screen bg-slate-950 pt-24 pb-12 px-4 sm:px-8 text-slate-200 selection:bg-emerald-500/30">
+      <div className="max-w-6xl mx-auto">
         
-        {/* --- HEADER TOOL YANG SUDAH RESPONSIF --- */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+        {/* Header Section */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 border-b border-slate-900 pb-5">
           <div className="flex items-center gap-3">
             <Link href="/dashboard" className="p-2 bg-slate-900 border border-slate-800 rounded-xl hover:bg-slate-800 transition-colors">
-              <ArrowLeft className="w-5 h-5 text-slate-400" />
+              <ArrowLeft className="w-4 h-4 text-slate-400" />
             </Link>
             <div className="flex items-center gap-2">
-              <FileJson className="w-6 h-6 text-emerald-400" />
-              <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight">JSON Formatter</h1>
+              <FileJson className="w-5 h-5 text-emerald-400" />
+              <h1 className="text-lg font-bold text-white tracking-tight">JSON Structure Studio</h1>
             </div>
           </div>
           
-          {/* Tombol Aksi otomatis menyesuaikan lebar di HP (W-Full) */}
-          <div className="flex gap-2 w-full sm:w-auto">
+          {/* Kelompok Tombol Aksi Mekanis */}
+          <div className="flex items-center gap-2 w-full sm:w-auto">
             <button 
-              onClick={minifyJson} 
-              className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-xl transition-colors text-xs sm:text-sm font-medium"
+              onClick={handleMinify}
+              disabled={!input.trim() || !!error}
+              className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3.5 py-2 bg-slate-900 hover:bg-slate-800 border border-slate-800 disabled:opacity-20 text-slate-300 font-semibold text-xs rounded-xl transition-all cursor-pointer"
             >
-              <Minimize2 className="w-4 h-4" /> Minify
+              <Minimize2 className="w-3.5 h-3.5" /> Minify
             </button>
             <button 
-              onClick={formatJson} 
-              className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl transition-colors text-xs sm:text-sm font-medium shadow-lg shadow-emerald-500/10"
+              onClick={handleFormat}
+              disabled={!input.trim() || !!error}
+              className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-900 disabled:text-slate-700 disabled:border-transparent text-white font-bold text-xs rounded-xl transition-all shadow-lg shadow-emerald-500/5 cursor-pointer active:scale-[0.98]"
             >
-              <AlignLeft className="w-4 h-4" /> Format
+              <AlignLeft className="w-3.5 h-3.5" /> Pretty Format
             </button>
           </div>
         </div>
 
-        {/* Error Notif */}
-        {error && (
-          <div className="mb-6 p-4 bg-red-500/10 border border-red-500/50 rounded-xl flex items-start gap-3 text-red-400">
-            <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
-            <div>
-              <p className="font-bold text-sm">Gagal memproses JSON</p>
-              <p className="text-xs opacity-80 mt-1 font-mono break-all">{error}</p>
+        {/* Workspace Dashboard Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 items-stretch">
+          
+          {/* Panel Kiri: Raw Input String */}
+          <div className="bg-slate-900/40 border border-white/[0.04] rounded-3xl p-5 space-y-3 flex flex-col justify-between shadow-2xl backdrop-blur-sm relative">
+            <div className="flex justify-between items-center pl-1">
+              <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
+                Input JSON Mentah
+              </span>
+              {input && (
+                <button onClick={handleClear} className="text-slate-500 hover:text-rose-400 p-1 transition-colors cursor-pointer" title="Bersihkan">
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+
+            <textarea 
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              spellCheck="false"
+              placeholder="Tempel atau ketik raw JSON data di sini (Object atau Array)..."
+              className="w-full h-96 bg-slate-950 border border-slate-900 rounded-2xl p-5 text-xs font-mono text-slate-300 placeholder:text-slate-700 focus:outline-none focus:border-emerald-500/40 resize-none leading-relaxed custom-scrollbar shadow-inner"
+            />
+
+            <div className="flex justify-between items-center text-[10px] font-mono text-slate-600 pl-1">
+              <span>Karakter: {input.length}</span>
+              <span>Bytes: {getByteSize(input)}</span>
             </div>
           </div>
-        )}
 
-        {/* Editor Area */}
-        <div className="bg-slate-900/50 border border-white/[0.03] rounded-2xl relative group h-[55vh] sm:h-[60vh] flex flex-col overflow-hidden backdrop-blur-md">
-          <textarea 
-            value={input}
-            onChange={(e) => {
-              setInput(e.target.value);
-              if (error) setError(null);
-            }}
-            spellCheck="false"
-            placeholder="Paste raw JSON array atau object di sini..."
-            className="flex-grow w-full bg-transparent p-5 sm:p-6 text-slate-300 font-mono text-xs sm:text-sm placeholder:text-slate-600 focus:outline-none resize-none overflow-y-auto"
-          />
-          
-          {/* Tombol Copy disesuaikan letaknya di HP */}
-          {input && (
-            <button 
-              onClick={copyToClipboard}
-              className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 p-2.5 sm:p-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl shadow-lg border border-slate-700 transition-all flex items-center gap-2 text-xs sm:text-sm font-medium"
-            >
-              {isCopied ? <><Check className="w-4 h-4 text-emerald-400"/> Copied</> : <><Copy className="w-4 h-4"/> Copy JSON</>}
-            </button>
-          )}
+          {/* Panel Kanan: Evaluasi & Beautiful Output */}
+          <div className="bg-slate-900/40 border border-white/[0.04] rounded-3xl p-5 space-y-3 flex flex-col justify-between shadow-2xl backdrop-blur-sm relative">
+            <div className="flex justify-between items-center pl-1">
+              <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                Hasil Analisis Struktur
+              </span>
+              
+              {/* Status Indikator Validasi */}
+              {input.trim() && (
+                <div className="animate-in fade-in duration-200">
+                  {error ? (
+                    <span className="flex items-center gap-1 text-[9px] font-bold text-rose-400 bg-rose-500/10 border border-rose-500/20 px-2 py-0.5 rounded">
+                      <AlertCircle className="w-3 h-3" /> Malformed JSON
+                    </span>
+                  ) : (
+                    <span className="flex items-center gap-1 text-[9px] font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded">
+                      <CheckCircle2 className="w-3 h-3" /> JSON Valid
+                    </span>
+                  )}
+                </div>
+              )}
+            </div>
+
+            <div className="relative flex-1 flex flex-col min-h-[384px] lg:min-h-0">
+              {error ? (
+                <div className="w-full h-full flex-1 bg-rose-950/10 border border-rose-900/20 rounded-2xl p-5 flex flex-col items-center justify-center text-center gap-2.5 animate-in fade-in zoom-in-95 duration-200">
+                  <AlertCircle className="w-5 h-5 text-rose-400 stroke-[2]" />
+                  <div className="space-y-1 max-w-[85%]">
+                    <p className="text-xs text-rose-300 font-bold">Kesalahan Struktur Data</p>
+                    <p className="text-[11px] text-rose-400/80 font-mono break-all leading-relaxed bg-rose-950/30 p-3 border border-rose-900/30 rounded-xl">{error}</p>
+                  </div>
+                </div>
+              ) : (
+                <textarea 
+                  readOnly
+                  value={output}
+                  placeholder="Hasil kompilasi visual JSON akan diproyeksikan di sini..."
+                  className="w-full h-full flex-1 bg-slate-950 border border-slate-900 rounded-2xl p-5 pr-5 pb-16 text-xs font-mono text-emerald-400 placeholder:text-slate-800 focus:outline-none resize-none leading-relaxed custom-scrollbar select-all shadow-inner animate-in fade-in duration-200"
+                />
+              )}
+
+              {output && !error && (
+                <button 
+                  onClick={handleCopy}
+                  className="absolute bottom-4 right-4 flex items-center justify-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2.5 rounded-xl transition-all shadow-lg text-xs font-bold active:scale-95 cursor-pointer"
+                >
+                  {copied ? (
+                    <>
+                      <Check className="w-3.5 h-3.5" />
+                      <span>Data Tersalin</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3.5 h-3.5" />
+                      <span>Salin JSON</span>
+                    </>
+                  )}
+                </button>
+              )}
+            </div>
+
+            <div className="text-[10px] font-mono text-slate-600 pl-1">
+              Baris Terformat: {output === '' ? 0 : output.split('\n').length}
+            </div>
+          </div>
+
         </div>
 
       </div>
