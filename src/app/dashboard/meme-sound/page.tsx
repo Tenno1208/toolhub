@@ -1,7 +1,10 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Clock, MapPin, Search, Calendar, Compass, RefreshCw, AlertCircle } from 'lucide-react';
+import {
+  ArrowLeft, MapPin, Search, Calendar, Compass, RefreshCw, AlertCircle,
+  Moon, Sunrise, Sun, CloudSun, Sunset, MoonStar, Clock3,
+} from 'lucide-react';
 
 interface City {
   id: string;
@@ -20,18 +23,40 @@ interface Schedule {
   isya: string;
 }
 
+const PRAYER_META = [
+  { key: 'imsak',   name: 'Imsak',   Icon: Moon },
+  { key: 'subuh',   name: 'Subuh',   Icon: Sunrise },
+  { key: 'terbit',  name: 'Terbit',  Icon: Sun },
+  { key: 'dhuha',   name: 'Dhuha',   Icon: CloudSun },
+  { key: 'dzuhur',  name: 'Dzuhur',  Icon: Sun },
+  { key: 'ashar',   name: 'Ashar',   Icon: CloudSun },
+  { key: 'maghrib', name: 'Maghrib', Icon: Sunset },
+  { key: 'isya',    name: 'Isya',    Icon: MoonStar },
+] as const;
+
+function toMinutes(hhmm: string): number {
+  const [h, m] = hhmm.split(':').map(Number);
+  return h * 60 + m;
+}
+
 export default function JadwalSholat() {
   const [cities, setCities] = useState<City[]>([]);
   const [selectedCityId, setSelectedCityId] = useState<string>('1301'); // Default: Kota Jakarta
   const [cityName, setCityName] = useState<string>('KOTA JAKARTA');
   const [searchQuery, setSearchQuery] = useState<string>('');
-  
+
   const [schedule, setSchedule] = useState<Schedule | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [searching, setSearching] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
+  const [now, setNow] = useState<Date>(new Date());
 
-  // Fetch jadwal sholat berdasarkan ID Kota & Tanggal Hari Ini
+  // Jam berjalan, untuk menyorot sholat yang sedang & berikutnya
+  useEffect(() => {
+    const t = setInterval(() => setNow(new Date()), 1000 * 15);
+    return () => clearInterval(t);
+  }, []);
+
   const fetchSchedule = async (cityId: string) => {
     setLoading(true);
     setError('');
@@ -57,12 +82,12 @@ export default function JadwalSholat() {
     }
   };
 
-  // Cari kota berdasarkan input user
   const handleSearchCity = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!searchQuery.trim()) return;
 
     setSearching(true);
+    setError('');
     try {
       const res = await fetch(`https://api.myquran.com/v2/sholat/kota/cari/${encodeURIComponent(searchQuery)}`);
       const json = await res.json();
@@ -80,158 +105,244 @@ export default function JadwalSholat() {
     }
   };
 
-  // Initial load: Fetch jadwal default
   useEffect(() => {
     fetchSchedule(selectedCityId);
   }, [selectedCityId]);
 
-  const prayerTimes = schedule ? [
-    { name: 'Imsak', time: schedule.imsak, icon: '🌙' },
-    { name: 'Subuh', time: schedule.subuh, icon: '🌅' },
-    { name: 'Terbit', time: schedule.terbit, icon: '☀️' },
-    { name: 'Dhuha', time: schedule.dhuha, icon: '🌤️' },
-    { name: 'Dzuhur', time: schedule.dzuhur, icon: '☀️' },
-    { name: 'Ashar', time: schedule.ashar, icon: '⛅' },
-    { name: 'Maghrib', time: schedule.maghrib, icon: '🌆' },
-    { name: 'Isya', time: schedule.isya, icon: '🌌' },
-  ] : [];
+  const prayerTimes = useMemo(
+    () => (schedule ? PRAYER_META.map((p) => ({ ...p, time: schedule[p.key as keyof Schedule] })) : []),
+    [schedule]
+  );
+
+  // Tentukan status setiap waktu sholat: lewat / sedang berjalan / berikutnya / akan datang
+  const { activeIndex, nextIndex, countdown } = useMemo(() => {
+    if (!prayerTimes.length) return { activeIndex: -1, nextIndex: -1, countdown: '' };
+    const nowMin = now.getHours() * 60 + now.getMinutes();
+    let active = -1;
+    for (let i = 0; i < prayerTimes.length; i++) {
+      if (toMinutes(prayerTimes[i].time) <= nowMin) active = i;
+    }
+    const next = active + 1 < prayerTimes.length ? active + 1 : 0;
+    const nextMin = toMinutes(prayerTimes[next].time);
+    let diff = nextMin - nowMin;
+    if (diff <= 0) diff += 24 * 60;
+    const h = Math.floor(diff / 60);
+    const m = diff % 60;
+    const label = h > 0 ? `${h} jam ${m} menit` : `${m} menit`;
+    return { activeIndex: active, nextIndex: next, countdown: label };
+  }, [prayerTimes, now]);
 
   return (
-    <div className="min-h-screen bg-slate-950 pt-24 pb-12 px-4 sm:px-8 text-slate-200">
-      <div className="max-w-4xl mx-auto space-y-8">
-        
-        {/* Header Navigasi */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Link href="/dashboard" className="p-2 bg-slate-900 border border-slate-800 rounded-xl hover:bg-slate-800 transition-colors">
-              <ArrowLeft className="w-5 h-5 text-slate-400" />
-            </Link>
-            <div className="flex items-center gap-2">
-              <Clock className="w-6 h-6 text-emerald-400" />
-              <h1 className="text-2xl font-bold text-white tracking-tight">Jadwal Sholat Digital</h1>
-            </div>
+    <div className="min-h-screen bg-[#071512] text-[#EDE7D3] pt-24 pb-16 px-4 sm:px-8 relative">
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap');
+        .font-display { font-family: 'Cormorant Garamond', serif; }
+        .font-body { font-family: 'Inter', sans-serif; }
+        @keyframes emberPulse { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
+        .ember-pulse { animation: emberPulse 3.2s ease-in-out infinite; }
+      `}</style>
+
+      {/* Motif geometris latar, sangat samar */}
+      <div
+        className="fixed inset-0 pointer-events-none opacity-[0.06]"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='84' height='84' viewBox='0 0 84 84'%3E%3Cg fill='none' stroke='%23C9A227' stroke-width='1'%3E%3Cpath d='M42 0 L84 42 L42 84 L0 42 Z'/%3E%3Cpath d='M42 12 L72 42 L42 72 L12 42 Z'/%3E%3C/g%3E%3C/svg%3E\")",
+        }}
+      />
+
+      <div className="max-w-4xl mx-auto space-y-8 relative font-body">
+
+        {/* Header */}
+        <div className="flex items-center gap-3">
+          <Link
+            href="/dashboard"
+            className="p-2 bg-[#0E2420] border border-[#24463d] rounded-xl hover:border-[#C9A227]/50 hover:bg-[#14322C] transition-colors"
+          >
+            <ArrowLeft className="w-5 h-5 text-[#9FB3AC]" />
+          </Link>
+          <div>
+            <p className="text-[10px] uppercase tracking-[0.25em] text-[#C9A227] font-semibold mb-0.5">
+              Kemenag RI &middot; Waktu Sholat
+            </p>
+            <h1 className="font-display text-3xl font-semibold text-[#F6EFDA] tracking-wide">
+              Jadwal Sholat
+            </h1>
           </div>
         </div>
 
-        {/* Section Pencarian Kota & Status Info */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          
-          {/* Form Cari Daerah */}
-          <div className="md:col-span-1 bg-slate-900/50 border border-slate-800 rounded-2xl p-5 backdrop-blur-sm space-y-4">
-            <h2 className="text-sm font-semibold text-slate-300 flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-emerald-400" /> Pilih Daerah
-            </h2>
+        {/* Kartu sorotan: waktu berikutnya, elemen signature */}
+        <div className="relative rounded-[28px] p-[1px] bg-gradient-to-br from-[#C9A227]/60 via-[#C9A227]/10 to-transparent">
+          <div className="relative rounded-[27px] bg-gradient-to-br from-[#0E2420] to-[#0A1D19] border border-[#C9A227]/20 px-6 py-7 sm:px-9 sm:py-8 overflow-hidden">
 
-            <form onSubmit={handleSearchCity} className="space-y-3">
-              <div className="relative">
-                <input 
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Cari Kota/Kabupaten..."
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl py-3 pl-4 pr-10 text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 text-sm"
-                />
-                <button 
-                  type="submit" 
-                  disabled={searching}
-                  className="absolute right-3 top-3 text-slate-400 hover:text-white"
-                >
-                  {searching ? <RefreshCw className="w-4 h-4 animate-spin text-emerald-400" /> : <Search className="w-4 h-4" />}
-                </button>
-              </div>
-            </form>
+            {/* Ornamen sudut ala manuskrip */}
+            {[
+              'top-4 left-4 rotate-0',
+              'top-4 right-4 rotate-90',
+              'bottom-4 right-4 rotate-180',
+              'bottom-4 left-4 -rotate-90',
+            ].map((pos, i) => (
+              <svg key={i} className={`absolute w-6 h-6 text-[#C9A227]/40 ${pos}`} viewBox="0 0 24 24" fill="none">
+                <path d="M2 2 L2 10 M2 2 L10 2 M2 2 Q10 2 10 10" stroke="currentColor" strokeWidth="1.2" />
+              </svg>
+            ))}
 
-            {/* Hasil Pencarian Kota */}
-            {cities.length > 0 && (
-              <div className="max-h-48 overflow-y-auto space-y-1 pr-1 custom-scrollbar border-t border-slate-800 pt-3">
-                <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-2">Pilih lokasi:</p>
-                {cities.map((city) => (
-                  <button
-                    key={city.id}
-                    onClick={() => {
-                      setSelectedCityId(city.id);
-                      setCities([]);
-                      setSearchQuery('');
-                    }}
-                    className={`w-full text-left px-3 py-2 rounded-lg text-xs transition-colors flex items-center justify-between ${
-                      selectedCityId === city.id 
-                        ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' 
-                        : 'bg-slate-950/50 text-slate-300 hover:bg-slate-800'
-                    }`}
-                  >
-                    <span>{city.lokasi}</span>
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Banner Informasi Daerah saat ini */}
-          <div className="md:col-span-2 bg-gradient-to-br from-emerald-950/40 to-slate-900/60 border border-emerald-500/20 rounded-2xl p-6 flex flex-col justify-between backdrop-blur-sm relative overflow-hidden">
-            <div className="flex items-start justify-between relative z-10">
+            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 relative z-10">
               <div>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium mb-3">
-                  <Compass className="w-3.5 h-3.5" /> Wilayah Terpilih
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#C9A227]/10 border border-[#C9A227]/25 text-[#E8C468] text-[11px] font-semibold uppercase tracking-wider mb-4">
+                  <Compass className="w-3.5 h-3.5" /> {cityName}
                 </div>
-                <h2 className="text-2xl font-black text-white tracking-wide uppercase">{cityName}</h2>
+                <p className="text-xs text-[#9FB3AC] mb-1.5">Waktu sholat berikutnya</p>
+                <p className="font-display text-2xl sm:text-3xl text-[#F6EFDA] font-semibold">
+                  {nextIndex >= 0 && prayerTimes[nextIndex] ? prayerTimes[nextIndex].name : '—'}
+                </p>
               </div>
-              <div className="text-right">
-                <div className="flex items-center gap-1.5 text-slate-400 text-xs font-mono justify-end">
-                  <Calendar className="w-3.5 h-3.5 text-emerald-400" />
+
+              <div className="text-left sm:text-right">
+                <div className="flex items-center gap-1.5 text-[#9FB3AC] text-xs font-mono justify-start sm:justify-end mb-1.5">
+                  <Calendar className="w-3.5 h-3.5 text-[#C9A227]" />
                   <span>{schedule?.tanggal || 'Hari ini'}</span>
                 </div>
+                <div className="flex items-center gap-2 justify-start sm:justify-end">
+                  <Clock3 className="w-5 h-5 text-[#E8C468] ember-pulse" />
+                  <span className="font-display text-3xl sm:text-4xl font-bold text-[#E8C468] tracking-wide tabular-nums">
+                    {nextIndex >= 0 && prayerTimes[nextIndex] ? prayerTimes[nextIndex].time : '--:--'}
+                  </span>
+                </div>
+                <p className="text-[11px] text-[#9FB3AC] mt-1">dalam {countdown || '—'}</p>
               </div>
             </div>
-
-            <p className="text-xs text-slate-400 mt-4 relative z-10">
-              Waktu disesuaikan otomatis dengan zona waktu setempat berdasarkan standar data Kemenag RI.
-            </p>
-
-            {/* Background Accent */}
-            <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
           </div>
-
         </div>
 
-        {/* Notifikasi Error */}
+        {/* Pencarian daerah */}
+        <div className="bg-[#0E2420]/60 border border-[#24463d] rounded-2xl p-5 backdrop-blur-sm">
+          <h2 className="text-xs font-semibold text-[#C9A227] uppercase tracking-wider flex items-center gap-2 mb-4">
+            <MapPin className="w-3.5 h-3.5" /> Ubah daerah
+          </h2>
+
+          <form onSubmit={handleSearchCity} className="relative max-w-md">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Cari kota atau kabupaten..."
+              className="w-full bg-[#071512] border border-[#24463d] rounded-xl py-3 pl-4 pr-11 text-[#F6EFDA] placeholder:text-[#5B6E68] focus:outline-none focus:ring-2 focus:ring-[#C9A227]/40 focus:border-[#C9A227]/50 text-sm transition-colors"
+            />
+            <button
+              type="submit"
+              disabled={searching}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9FB3AC] hover:text-[#E8C468] transition-colors"
+            >
+              {searching ? <RefreshCw className="w-4 h-4 animate-spin text-[#C9A227]" /> : <Search className="w-4 h-4" />}
+            </button>
+          </form>
+
+          {cities.length > 0 && (
+            <div className="max-h-48 overflow-y-auto grid sm:grid-cols-2 gap-1.5 mt-4 pt-4 border-t border-[#24463d]">
+              {cities.map((city) => (
+                <button
+                  key={city.id}
+                  onClick={() => {
+                    setSelectedCityId(city.id);
+                    setCities([]);
+                    setSearchQuery('');
+                  }}
+                  className={`w-full text-left px-3 py-2 rounded-lg text-xs transition-colors ${
+                    selectedCityId === city.id
+                      ? 'bg-[#C9A227]/10 text-[#E8C468] border border-[#C9A227]/30'
+                      : 'bg-[#071512]/60 text-[#B9C7C1] border border-transparent hover:border-[#24463d] hover:bg-[#0E2420]'
+                  }`}
+                >
+                  {city.lokasi}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Error */}
         {error && (
-          <div className="p-4 bg-rose-500/10 border border-rose-500/20 rounded-xl flex items-center gap-3 text-rose-400 text-sm">
+          <div className="p-4 bg-[#3A1414]/40 border border-[#8C3A3A]/30 rounded-xl flex items-center gap-3 text-[#E29999] text-sm">
             <AlertCircle className="w-5 h-5 shrink-0" />
             <span>{error}</span>
           </div>
         )}
 
-        {/* Grid Waktu Sholat */}
+        {/* Grid waktu sholat, meredup untuk yang sudah lewat, menyala untuk yang akan datang */}
         {loading ? (
-          <div className="flex items-center justify-center py-20 bg-slate-900/30 border border-slate-800/50 rounded-2xl">
-            <RefreshCw className="w-8 h-8 text-emerald-400 animate-spin" />
+          <div className="flex items-center justify-center py-24 bg-[#0E2420]/40 border border-[#24463d] rounded-2xl">
+            <RefreshCw className="w-7 h-7 text-[#C9A227] animate-spin" />
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            {prayerTimes.map((item, idx) => (
-              <div 
-                key={idx}
-                className="bg-slate-900/40 border border-slate-800 hover:border-emerald-500/30 p-5 rounded-2xl flex flex-col justify-between h-32 transition-all hover:bg-slate-900/80 group"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-semibold text-slate-400 group-hover:text-slate-200">
-                    {item.name}
-                  </span>
-                  <span className="text-lg">{item.icon}</span>
-                </div>
-                <div>
-                  <span className="text-2xl font-black font-mono text-white tracking-wider group-hover:text-emerald-400 transition-colors">
-                    {item.time}
-                  </span>
-                  <span className="text-[10px] text-slate-500 block">WIB / WITA / WIT</span>
-                </div>
-              </div>
-            ))}
+          <div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+              {prayerTimes.map((item, idx) => {
+                const isNext = idx === nextIndex;
+                const isPast = activeIndex >= 0 && idx <= activeIndex && !isNext;
+                return (
+                  <div
+                    key={item.key}
+                    className={`relative p-5 rounded-2xl flex flex-col justify-between h-32 transition-all ${
+                      isNext
+                        ? 'bg-gradient-to-br from-[#C9A227]/15 to-[#0E2420] border border-[#C9A227]/50 shadow-[0_0_24px_-4px_rgba(201,162,39,0.35)]'
+                        : isPast
+                        ? 'bg-[#0A1D19]/40 border border-[#1c332e] opacity-45'
+                        : 'bg-[#0E2420]/60 border border-[#24463d] hover:border-[#C9A227]/30'
+                    }`}
+                  >
+                    {isNext && (
+                      <span className="absolute -top-2 right-3 text-[9px] uppercase tracking-wider font-semibold px-2 py-0.5 rounded-full bg-[#C9A227] text-[#071512]">
+                        Berikutnya
+                      </span>
+                    )}
+                    <div className="flex items-center justify-between">
+                      <span className={`text-xs font-semibold ${isNext ? 'text-[#E8C468]' : 'text-[#9FB3AC]'}`}>
+                        {item.name}
+                      </span>
+                      <item.Icon className={`w-4 h-4 ${isNext ? 'text-[#E8C468]' : 'text-[#5B6E68]'}`} />
+                    </div>
+                    <div>
+                      <span
+                        className={`font-display text-2xl font-bold tracking-wide tabular-nums ${
+                          isNext ? 'text-[#F6EFDA]' : 'text-[#D8D0B8]'
+                        }`}
+                      >
+                        {item.time}
+                      </span>
+                      <span className="text-[10px] text-[#5B6E68] block mt-0.5">WIB / WITA / WIT</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Untaian progres hari */}
+            <div className="flex items-center mt-6 px-1">
+              {prayerTimes.map((item, idx) => (
+                <React.Fragment key={item.key}>
+                  <div
+                    className={`w-2 h-2 rounded-full shrink-0 ${
+                      idx <= activeIndex && idx !== nextIndex
+                        ? 'bg-[#3A5A52]'
+                        : idx === nextIndex
+                        ? 'bg-[#E8C468] ember-pulse'
+                        : 'bg-[#1c332e]'
+                    }`}
+                  />
+                  {idx < prayerTimes.length - 1 && (
+                    <div className={`h-px flex-1 ${idx < activeIndex ? 'bg-[#3A5A52]' : 'bg-[#1c332e]'}`} />
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
           </div>
         )}
 
+        <p className="text-[11px] text-[#5B6E68] text-center pt-2">
+          Waktu disesuaikan otomatis dengan zona waktu setempat berdasarkan standar data Kemenag RI.
+        </p>
       </div>
     </div>
   );
 }
-
