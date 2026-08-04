@@ -71,13 +71,7 @@ const tools = [
   { id: 24, name: 'Keputusan Mutlak', icon: <HelpCircle className="w-7 h-7 text-cyan-400" />, path: '/decision-picker', category: 'Fun & Utilities' },
   { id: 25, name: 'Glass Generator', icon: <Layers className="w-7 h-7 text-amber-400" />, path: '/glass-generator', category: 'Fun & Utilities' },
   { id: 26, name: 'Kalkulator Jodoh', icon: <Heart className="w-7 h-7 text-rose-400" />, path: '/love-calc', category: 'Fun & Utilities' },
-  {
-  id: 'jadwal-sholat',
-  name: 'Jadwal Sholat',
-  desc: 'Jadwal sholat & imsakiyah real-time seluruh daerah Indonesia',
-  path: '/jadwal-sholat', // Pastikan folder/route di app/dashboard/jadwal-sholat
-  category: 'Islami', // Atau sesuaikan dengan nama kategori tempat kamu menaruhnya
-  icon: (
+  {id: 'jadwal-sholat',name: 'Jadwal Sholat',desc: 'Jadwal sholat & imsakiyah real-time seluruh daerah Indonesia',path: '/jadwal-sholat', // Pastikan folder/route di app/dashboard/jadwal-sholatcategory: 'Islami', // Atau sesuaikan dengan nama kategori tempat kamu menaruhnyaicon: (
     <div className="relative flex items-center justify-center">
       {/* Background glow mewah */}
       <div className="absolute inset-0 bg-emerald-500/20 blur-md rounded-full group-hover:bg-emerald-500/40 transition-all duration-300" />   
@@ -87,7 +81,7 @@ const tools = [
       </div>
     </div>
   ),
-}
+},
   { id: 28, name: 'Kalkulator BMI', icon: <Activity className="w-7 h-7 text-emerald-400" />, path: '/bmi-calc', category: 'Fun & Utilities' },
   { id: 29, name: 'Kalkulator Diskon', icon: <Percent className="w-7 h-7 text-amber-400" />, path: '/discount-calc', category: 'Fun & Utilities' },
   { id: 30, name: 'Split Bill', icon: <Users className="w-7 h-7 text-cyan-400" />, path: '/split-bill', category: 'Fun & Utilities' },
