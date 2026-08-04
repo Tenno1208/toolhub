@@ -5,8 +5,8 @@ import {
   Image as ImageIcon, Fingerprint, Calculator, Globe, Calendar, Palette,
   Briefcase, Terminal, Wrench, ShieldAlert,
   Database, FileText, Code2, GitBranch, Binary, Smile, HelpCircle, Heart, Volume2, Sparkles,
-  Layers, Flame, Users, Droplet, Percent, Activity,
-  CloudSun, DollarSign, PenTool, ScanText, BrainCircuit, Hourglass, Utensils, Wallet, Landmark, Scale, Crown
+  Layers, Flame, Users, Droplet, Percent, Activity, 
+  CloudSun, DollarSign, PenTool, ScanText, BrainCircuit, Hourglass, Utensils, Wallet, Landmark, Scale, Crown, Moon, Clock, Compass
 } from 'lucide-react';
 import Link from 'next/link';
 import Footer from '@/components/Footer'; 
@@ -71,7 +71,23 @@ const tools = [
   { id: 24, name: 'Keputusan Mutlak', icon: <HelpCircle className="w-7 h-7 text-cyan-400" />, path: '/decision-picker', category: 'Fun & Utilities' },
   { id: 25, name: 'Glass Generator', icon: <Layers className="w-7 h-7 text-amber-400" />, path: '/glass-generator', category: 'Fun & Utilities' },
   { id: 26, name: 'Kalkulator Jodoh', icon: <Heart className="w-7 h-7 text-rose-400" />, path: '/love-calc', category: 'Fun & Utilities' },
-  { id: 27, name: 'Meme Soundboard', icon: <Volume2 className="w-7 h-7 text-indigo-400" />, path: '/meme-sound', category: 'Fun & Utilities' },
+  {
+  id: 'jadwal-sholat',
+  name: 'Jadwal Sholat',
+  desc: 'Jadwal sholat & imsakiyah real-time seluruh daerah Indonesia',
+  path: '/jadwal-sholat', // Pastikan folder/route di app/dashboard/jadwal-sholat
+  category: 'Islami', // Atau sesuaikan dengan nama kategori tempat kamu menaruhnya
+  icon: (
+    <div className="relative flex items-center justify-center">
+      {/* Background glow mewah */}
+      <div className="absolute inset-0 bg-emerald-500/20 blur-md rounded-full group-hover:bg-emerald-500/40 transition-all duration-300" />   
+      {/* Container Ikon Aksentuasi Emerald & Gold */}
+      <div className="relative p-2.5 rounded-xl bg-slate-950/80 border border-emerald-500/30 text-emerald-400 group-hover:border-emerald-400 group-hover:text-emerald-300 group-hover:scale-110 transition-all duration-300 shadow-lg shadow-emerald-950/50">
+        <Moon className="w-5 h-5 fill-emerald-500/10" />
+      </div>
+    </div>
+  ),
+}
   { id: 28, name: 'Kalkulator BMI', icon: <Activity className="w-7 h-7 text-emerald-400" />, path: '/bmi-calc', category: 'Fun & Utilities' },
   { id: 29, name: 'Kalkulator Diskon', icon: <Percent className="w-7 h-7 text-amber-400" />, path: '/discount-calc', category: 'Fun & Utilities' },
   { id: 30, name: 'Split Bill', icon: <Users className="w-7 h-7 text-cyan-400" />, path: '/split-bill', category: 'Fun & Utilities' },
@@ -171,25 +187,29 @@ export default function Dashboard() {
                 </div>
 
                 {/* Micro Grid per-Kategori */}
-                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-4 sm:gap-5">
-                  {categoryTools.map((tool) => (
-                    <Link href={`/dashboard${tool.path}`} key={tool.id} className="block group">
-                      <div className="flex flex-col items-center justify-center p-4 h-full aspect-square bg-slate-900/40 border border-white/[0.02] rounded-2xl hover:bg-slate-900/80 hover:border-purple-500/20 transition-all cursor-pointer backdrop-blur-sm shadow-sm">
-                        
-                        {/* Ikon dengan transisi hover bawaan */}
-                        <div className="text-slate-400 mb-3 group-hover:-translate-y-1 transition-transform duration-300">
-                          {tool.icon}
-                        </div>
-                        
-                        {/* Judul Tool */}
-                        <h3 className="text-xs font-semibold text-slate-400 group-hover:text-white text-center leading-tight transition-colors">
-                          {tool.name}
-                        </h3>
-                        
-                      </div>
-                    </Link>
-                  ))}
-                </div>
+<div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-4 sm:gap-5">
+  {categoryTools.map((tool) => (
+    <Link href={`/dashboard${tool.path}`} key={tool.id} className="block group">
+      <div className="relative flex flex-col items-center justify-center p-4 h-full aspect-square bg-slate-900/40 border border-white/[0.04] rounded-2xl hover:bg-slate-900/90 hover:border-emerald-500/30 transition-all duration-300 cursor-pointer backdrop-blur-md shadow-lg hover:shadow-emerald-500/5 overflow-hidden">
+        
+        {/* Subtle Ambient Glow saat di-hover */}
+        <div className="absolute -top-10 -right-10 w-20 h-20 bg-emerald-500/0 group-hover:bg-emerald-500/10 rounded-full blur-xl transition-all duration-500 pointer-events-none" />
+
+        {/* Ikon dengan transisi hover bawaan */}
+        <div className="text-slate-400 mb-3 group-hover:-translate-y-1 transition-transform duration-300">
+          {tool.icon}
+        </div>
+        
+        {/* Judul Tool */}
+        <h3 className="text-xs font-semibold text-slate-400 group-hover:text-emerald-300 text-center leading-tight transition-colors">
+          {tool.name}
+        </h3>
+        
+      </div>
+    </Link>
+  ))}
+</div>
+
               </section>
             );
           })}
