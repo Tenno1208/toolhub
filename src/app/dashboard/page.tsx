@@ -73,7 +73,7 @@ const tools = [
     id: 'jadwal-sholat',
     name: 'Jadwal Sholat',
     desc: 'Jadwal sholat & imsakiyah real-time seluruh daerah Indonesia',
-    path: '/jadwal-sholat',
+    path: '/meme-sound',
     category: 'Fun & Utilities',
     icon: (
       <div className="relative flex items-center justify-center">
