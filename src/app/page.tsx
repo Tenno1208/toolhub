@@ -1,307 +1,232 @@
 "use client";
+
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
-  ArrowRight,
-  ArrowUpRight,
-  FileText,
-  ScanLine,
-  Sparkles,
-  Music2,
-  ShieldCheck,
   Wrench,
-  CheckCircle2,
+  Sparkles,
+  RefreshCw,
+  AlertTriangle,
+  Zap,
+  Cpu,
+  ShieldCheck,
+  Clock,
+  Layers,
+  ArrowRight
 } from 'lucide-react';
-import Footer from '@/components/Footer';
 
-/* ---------------------------------------------------------
-   Signature element: a measuring-ruler divider.
-   Used between major sections to reinforce the "precision
-   toolbench" concept — every section is a measured interval.
---------------------------------------------------------- */
-function RulerDivider({ label }) {
-  const ticks = Array.from({ length: 41 });
+export default function MaintenancePage() {
+  const [lastChecked, setLastChecked] = useState<string>('');
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  useEffect(() => {
+    setLastChecked(new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
+  }, []);
+
+  const handleRefresh = () => {
+    setIsRefreshing(true);
+    setTimeout(() => {
+      setLastChecked(new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
+      setIsRefreshing(false);
+    }, 700);
+  };
+
+  const services = [
+    { name: 'Core Web Platform', status: 'Migrasi Engine v4.0', state: 'progress' },
+    { name: 'AI Assistant & Copilot', status: 'Pembaruan Model Terbaru', state: 'progress' },
+    { name: 'Client-Side Toolsets (OCR, PDF, Media)', status: 'Tahap Verifikasi Akhir', state: 'testing' },
+    { name: 'Security & Enkripsi Lokal', status: 'Optimal & Aman', state: 'ready' },
+  ];
+
+  const features = [
+    {
+      icon: Zap,
+      title: 'Performa Super Kilat',
+      desc: 'Optimalisasi arsitektur 0-latency dengan pemrosesan client-side murni tanpa hambatan.',
+      color: 'from-amber-500/20 to-yellow-500/10 border-amber-500/30 text-amber-400',
+    },
+    {
+      icon: Cpu,
+      title: 'Fitur AI Generasi Baru',
+      desc: 'Integrasi mesin AI cerdas untuk analisis dokumen, generator cerdas, dan produktivitas tinggi.',
+      color: 'from-purple-500/20 to-indigo-500/10 border-purple-500/30 text-purple-400',
+    },
+    {
+      icon: Layers,
+      title: 'Antarmuka Baru & Bersih',
+      desc: 'Tampilan lebih segar, navigasi cepat, dan layout ergonomis yang nyaman digunakan.',
+      color: 'from-blue-500/20 to-cyan-500/10 border-blue-500/30 text-blue-400',
+    },
+    {
+      icon: ShieldCheck,
+      title: 'Privasi Tingkat Tinggi',
+      desc: 'Standardisasi privasi ketat: semua file dan data Anda tetap berada 100% di browser lokal Anda.',
+      color: 'from-emerald-500/20 to-teal-500/10 border-emerald-500/30 text-emerald-400',
+    },
+  ];
+
   return (
-    <div className="relative w-full select-none" aria-hidden="true">
-      <div className="flex items-end h-4 overflow-hidden opacity-60">
-        {ticks.map((_, i) => (
-          <div
-            key={i}
-            className="flex-1 border-l border-[#5c5540]"
-            style={{ height: i % 5 === 0 ? '100%' : '45%' }}
-          />
-        ))}
-      </div>
-      {label && (
-        <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-[#15140f] px-3 text-[10px] font-mono uppercase tracking-[0.25em] text-[#a79c87]">
-          {label}
-        </span>
-      )}
-    </div>
-  );
-}
+    <div className="relative min-h-screen pt-24 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden bg-slate-950 text-slate-100 flex flex-col justify-between">
+      {/* Background Glow Decorations */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-gradient-to-tr from-amber-600/15 via-purple-600/15 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
+      <div className="absolute bottom-10 right-10 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none -z-10" />
+      <div className="absolute top-20 left-10 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none -z-10" />
 
-/* ---------------------------------------------------------
-   Signature element: brass spec plate — a riveted nameplate
-   used for the version badge and the stats strip.
---------------------------------------------------------- */
-function Rivet() {
-  return <span className="block w-1 h-1 rounded-full bg-[#0000004d] shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]" />;
-}
+      {/* Main Container */}
+      <div className="max-w-4xl mx-auto w-full space-y-10">
 
-const tools = [
-  {
-    id: 'DRW-01',
-    icon: FileText,
-    name: 'PDF Toolkit',
-    desc: 'Gabung, pisah, kompres, dan beri watermark pada dokumen PDF. Semua proses berjalan di memori browser, file tidak pernah terkirim ke server.',
-    spec: 'Format: PDF · DOCX · PNG',
-  },
-  {
-    id: 'DRW-02',
-    icon: ScanLine,
-    name: 'Pengenalan Teks (OCR)',
-    desc: 'Ubah dokumen hasil pindaian atau foto menjadi teks yang bisa disalin dan dicari, lengkap dengan deteksi tata letak kolom.',
-    spec: 'Akurasi: ±97% pada cetakan standar',
-  },
-  {
-    id: 'DRW-03',
-    icon: Sparkles,
-    name: 'Asisten AI',
-    desc: 'Obrolan interaktif dan generator takarir bertenaga Gemini 2.5 Flash untuk merangkum, menulis ulang, atau menjelaskan berkas Anda.',
-    spec: 'Model: Gemini 2.5 Flash',
-  },
-  {
-    id: 'DRW-04',
-    icon: Music2,
-    name: 'Ruang Fokus Lo-fi',
-    desc: 'Pemutar ambient dengan pengatur waktu Pomodoro bawaan, dirancang untuk sesi belajar atau kerja panjang tanpa distraksi.',
-    spec: 'Mode: Offline-first',
-  },
-];
-
-const stats = [
-  { value: '12+', label: 'Alat tersedia' },
-  { value: '100%', label: 'Proses client-side' },
-  { value: '0', label: 'Iklan & popup' },
-  { value: 'LTS', label: 'Siklus dukungan' },
-];
-
-export default function LandingPage() {
-  return (
-    <div className="min-h-screen flex flex-col bg-[#15140f] text-[#f3eee2] font-sans">
-
-      {/* --- STATUS LINE (release info, spec-sheet style) --- */}
-      <div className="w-full border-b border-[#2a271c] bg-[#181610]">
-        <div className="max-w-6xl mx-auto px-6 py-2.5 flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono uppercase tracking-[0.15em] text-[#a79c87]">
-          <div className="flex items-center gap-2">
-            <span className="text-[#c99a4e]">●</span>
-            <span>Rilis Resmi</span>
-            <span className="text-[#5c5540]">/</span>
-            <span className="text-[#f3eee2]">ToolHub v3.0.0</span>
-          </div>
-          <div className="flex items-center gap-4">
-            <span>Integrasi Gemini 2.5 Flash</span>
-            <span className="hidden sm:inline text-[#5c5540]">/</span>
-            <span className="hidden sm:inline text-[#4f8a80]">Long-Term Support</span>
+        {/* Status Badge */}
+        <div className="flex justify-center">
+          <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs sm:text-sm font-semibold shadow-lg shadow-amber-500/5 backdrop-blur-md">
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500"></span>
+            </span>
+            <span>PEMELIHARAAN SISTEM &bull; MAJOR UPGRADE v4.0</span>
           </div>
         </div>
-      </div>
 
-      {/* --- HERO --- */}
-      <section className="flex-grow max-w-6xl mx-auto px-6 pt-20 pb-16 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_0.7fr] gap-16 items-end">
-          <div>
-            <div className="inline-flex items-center gap-2 mb-8">
-              <Wrench className="w-3.5 h-3.5 text-[#c99a4e]" />
-              <span className="text-[11px] font-mono uppercase tracking-[0.25em] text-[#c99a4e]">
-                Toolbench Digital
-              </span>
-            </div>
-
-            <h1 className="text-5xl sm:text-6xl md:text-7xl font-black tracking-tight leading-[1.03] mb-8">
-              Semua alat kerja Anda,
-              <br />
-              <span className="text-[#c99a4e]">tersusun rapi</span> di satu tempat.
-            </h1>
-
-            <p className="text-base sm:text-lg text-[#a79c87] max-w-xl leading-relaxed mb-10">
-              ToolHub menghimpun manipulasi PDF, pengenalan teks berbasis AI, asisten
-              obrolan, dan ruang fokus lo-fi dalam satu antarmuka. Tanpa iklan, tanpa
-              kuota harian — dan berkas Anda tidak pernah meninggalkan perangkat.
-            </p>
-
-            <div className="flex flex-col sm:flex-row items-start gap-4">
-              <Link
-                href="/dashboard"
-                className="group flex items-center justify-center gap-2 bg-[#c99a4e] text-[#15140f] px-7 py-3.5 rounded-lg font-bold text-sm tracking-wide hover:bg-[#dcae63] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#c99a4e] transition-colors"
-              >
-                Buka Dashboard
-                <ArrowRight className="w-4 h-4 stroke-[2.5] motion-safe:group-hover:translate-x-0.5 transition-transform" />
-              </Link>
-              <Link
-                href="/dashboard/features"
-                className="flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg font-semibold text-sm text-[#f3eee2] border border-[#3a3627] hover:border-[#c99a4e]/50 hover:bg-[#1c1a13] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#c99a4e] transition-colors"
-              >
-                Lihat Semua Fitur
-                <ArrowUpRight className="w-4 h-4 text-[#a79c87]" />
-              </Link>
-            </div>
+        {/* Hero Banner */}
+        <div className="text-center space-y-5">
+          <div className="mx-auto w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-gradient-to-br from-amber-500/20 via-slate-900 to-purple-600/20 border border-white/10 flex items-center justify-center shadow-2xl shadow-amber-500/10 relative group">
+            <div className="absolute inset-0 rounded-3xl bg-amber-500/20 blur-xl opacity-50 group-hover:opacity-75 transition-opacity" />
+            <Wrench className="w-10 h-10 sm:w-12 sm:h-12 text-amber-400 animate-pulse relative z-10" />
           </div>
 
-          {/* Spec plate card, hero-right */}
-          <div className="border border-[#3a3627] bg-[#1c1a13] rounded-2xl p-6 relative">
-            <div className="absolute top-3 left-3"><Rivet /></div>
-            <div className="absolute top-3 right-3"><Rivet /></div>
-            <div className="absolute bottom-3 left-3"><Rivet /></div>
-            <div className="absolute bottom-3 right-3"><Rivet /></div>
-            <p className="text-[10px] font-mono uppercase tracking-[0.25em] text-[#5c5540] mb-4">
-              Spesifikasi Build
-            </p>
-            <dl className="space-y-3 text-sm">
-              <div className="flex justify-between border-b border-[#2a271c] pb-2">
-                <dt className="text-[#a79c87]">Versi</dt>
-                <dd className="font-mono text-[#f3eee2]">3.0.0 LTS</dd>
-              </div>
-              <div className="flex justify-between border-b border-[#2a271c] pb-2">
-                <dt className="text-[#a79c87]">Engine</dt>
-                <dd className="font-mono text-[#f3eee2]">Next.js · Turbopack</dd>
-              </div>
-              <div className="flex justify-between border-b border-[#2a271c] pb-2">
-                <dt className="text-[#a79c87]">Model AI</dt>
-                <dd className="font-mono text-[#f3eee2]">Gemini 2.5 Flash</dd>
-              </div>
-              <div className="flex justify-between">
-                <dt className="text-[#a79c87]">Penyimpanan</dt>
-                <dd className="font-mono text-[#4f8a80]">Lokal, tidak diunggah</dd>
-              </div>
-            </dl>
-          </div>
-        </div>
-      </section>
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-tight">
+            Kami Sedang Melakukan <br className="hidden sm:inline" />
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-400 via-orange-300 to-purple-400">
+              Pembaruan Skala Besar
+            </span>
+          </h1>
 
-      <div className="max-w-6xl mx-auto w-full px-6">
-        <RulerDivider label="Sekilas Angka" />
-      </div>
-
-      {/* --- STATS STRIP --- */}
-      <section className="max-w-6xl mx-auto px-6 py-14 w-full">
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-[#2a271c] border border-[#2a271c] rounded-2xl overflow-hidden">
-          {stats.map((s) => (
-            <div key={s.label} className="bg-[#15140f] p-6 text-center">
-              <p className="text-3xl sm:text-4xl font-black text-[#c99a4e] font-mono">{s.value}</p>
-              <p className="text-xs text-[#a79c87] mt-2 uppercase tracking-wide">{s.label}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <div className="max-w-6xl mx-auto w-full px-6">
-        <RulerDivider label="Isi Toolbench" />
-      </div>
-
-      {/* --- TOOL DRAWERS (features) --- */}
-      <section id="features" className="max-w-6xl mx-auto px-6 py-16 w-full scroll-mt-24">
-        <div className="mb-12 max-w-2xl">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-3">Empat laci, satu bengkel.</h2>
-          <p className="text-[#a79c87] text-sm sm:text-base leading-relaxed">
-            Setiap alat dirancang untuk berdiri sendiri — buka yang Anda butuhkan,
-            tanpa memuat yang lain.
+          <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-400 leading-relaxed">
+            ToolHub sedang ditingkatkan ke arsitektur generasi terbaru untuk memberikan performa yang jauh lebih cepat, fitur utilitas baru, serta pengalaman pengguna yang jauh lebih mulus. Mohon maaf atas ketidaknyamanan ini.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          {tools.map((tool) => (
-            <div
-              key={tool.id}
-              className="group border border-[#2a271c] bg-[#1c1a13] rounded-2xl p-7 hover:border-[#c99a4e]/40 transition-colors"
-            >
-              <div className="flex items-start justify-between mb-5">
-                <div className="w-11 h-11 rounded-xl bg-[#15140f] border border-[#3a3627] flex items-center justify-center group-hover:border-[#c99a4e]/50 transition-colors">
-                  <tool.icon className="w-5 h-5 text-[#c99a4e]" />
-                </div>
-                <span className="text-[10px] font-mono text-[#5c5540] tracking-widest pt-1">
-                  {tool.id}
+        {/* Progress Tracker Card */}
+        <div className="p-6 sm:p-8 rounded-2xl bg-slate-900/70 border border-white/10 shadow-2xl backdrop-blur-xl relative overflow-hidden">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+            <div>
+              <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-amber-400">
+                <Clock className="w-4 h-4" />
+                <span>Status Pengerjaan Saat Ini</span>
+              </div>
+              <h2 className="text-lg sm:text-xl font-bold text-white mt-1">
+                Tahap 3 dari 4: Migrasi Fitur & Integrasi Baru
+              </h2>
+            </div>
+            <div className="px-3.5 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-xs font-mono text-slate-300 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+              <span>Progres Global: <strong className="text-white">82%</strong></span>
+            </div>
+          </div>
+
+          {/* Progress Bar */}
+          <div className="w-full bg-slate-800 rounded-full h-3.5 p-0.5 overflow-hidden mb-6 border border-white/5">
+            <div 
+              className="bg-gradient-to-r from-amber-500 via-orange-500 to-purple-500 h-full rounded-full transition-all duration-1000 shadow-lg shadow-amber-500/30"
+              style={{ width: '82%' }}
+            />
+          </div>
+
+          {/* Service Status Matrix */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+            {services.map((srv, idx) => (
+              <div 
+                key={idx}
+                className="flex items-center justify-between p-3 rounded-xl bg-slate-950/50 border border-white/5 text-xs"
+              >
+                <span className="text-slate-300 font-medium">{srv.name}</span>
+                <span className={`inline-flex items-center gap-1.5 font-semibold ${
+                  srv.state === 'ready' 
+                    ? 'text-emerald-400' 
+                    : srv.state === 'testing' 
+                    ? 'text-blue-400' 
+                    : 'text-amber-400'
+                }`}>
+                  <span className={`w-1.5 h-1.5 rounded-full ${
+                    srv.state === 'ready' 
+                      ? 'bg-emerald-400' 
+                      : srv.state === 'testing' 
+                      ? 'bg-blue-400 animate-pulse' 
+                      : 'bg-amber-400 animate-pulse'
+                  }`} />
+                  {srv.status}
                 </span>
               </div>
-              <h3 className="text-lg font-bold mb-2">{tool.name}</h3>
-              <p className="text-sm text-[#a79c87] leading-relaxed mb-5">{tool.desc}</p>
-              <p className="text-[11px] font-mono text-[#4f8a80] uppercase tracking-wide border-t border-[#2a271c] pt-3">
-                {tool.spec}
-              </p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </section>
 
-      <div className="max-w-6xl mx-auto w-full px-6">
-        <RulerDivider label="Cara Kerja" />
+        {/* Sneak Peek: What's Coming */}
+        <div className="space-y-4">
+          <div className="text-center sm:text-left">
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-400 flex items-center justify-center sm:justify-start gap-2">
+              <Sparkles className="w-4 h-4 text-amber-400" />
+              <span>Apa Saja yang Hadir di Update Kali Ini?</span>
+            </h3>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {features.map((item, idx) => {
+              const IconComp = item.icon;
+              return (
+                <div 
+                  key={idx}
+                  className={`p-5 rounded-2xl bg-gradient-to-b ${item.color} bg-slate-900/60 border backdrop-blur-md transition-all hover:scale-[1.01]`}
+                >
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="p-2 rounded-xl bg-slate-950/70 border border-white/10">
+                      <IconComp className="w-5 h-5" />
+                    </div>
+                    <h4 className="font-bold text-white text-base">{item.title}</h4>
+                  </div>
+                  <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                    {item.desc}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Action Controls & Reload Section */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-5 rounded-2xl bg-slate-900/50 border border-white/10 backdrop-blur-md">
+          <div className="flex items-center gap-3 text-xs text-slate-400 text-center sm:text-left">
+            <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0" />
+            <div>
+              <p className="text-slate-300 font-medium">Halaman ini akan diperbarui secara berkala.</p>
+              <p className="text-slate-500">Pemeriksaan terakhir: {lastChecked || 'Memuat...'}</p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 w-full sm:w-auto">
+            <button
+              onClick={handleRefresh}
+              disabled={isRefreshing}
+              className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 active:scale-95 text-slate-950 font-bold text-xs sm:text-sm transition-all shadow-lg shadow-amber-500/20 disabled:opacity-50 cursor-pointer"
+            >
+              <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+              <span>{isRefreshing ? 'Mengecek...' : 'Cek Status Sekarang'}</span>
+            </button>
+            <Link
+              href="/dashboard/features"
+              className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 font-semibold text-xs sm:text-sm transition-all border border-slate-700"
+            >
+              <span>Dokumentasi</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+        </div>
+
       </div>
 
-      {/* --- HOW IT WORKS / PRIVACY --- */}
-      <section className="max-w-6xl mx-auto px-6 py-16 w-full grid grid-cols-1 lg:grid-cols-2 gap-14 items-start">
-        <div>
-          <div className="inline-flex items-center gap-2 mb-5">
-            <ShieldCheck className="w-4 h-4 text-[#4f8a80]" />
-            <span className="text-[11px] font-mono uppercase tracking-[0.25em] text-[#4f8a80]">
-              Client-side by design
-            </span>
-          </div>
-          <h2 className="text-2xl sm:text-3xl font-bold mb-4 leading-snug">
-            Berkas Anda tidak pernah singgah di server kami.
-          </h2>
-          <p className="text-[#a79c87] text-sm sm:text-base leading-relaxed">
-            Sebagian besar aplikasi PDF mengunggah dokumen Anda ke cloud untuk
-            diproses. ToolHub sengaja dibangun sebaliknya: setiap operasi berjalan
-            di memori browser Anda sendiri, sehingga dokumen sensitif — rapor,
-            kontrak, KTP — tetap berada di perangkat Anda dari awal sampai akhir.
-          </p>
-        </div>
-
-        <ol className="space-y-5">
-          {[
-            'Pilih alat dari dashboard, tanpa perlu instalasi tambahan.',
-            'Unggah berkas — prosesnya dijalankan langsung oleh browser Anda.',
-            'Unduh hasilnya. Tidak ada salinan yang tersimpan di server manapun.',
-          ].map((step, i) => (
-            <li key={i} className="flex gap-4">
-              <span className="flex-shrink-0 w-7 h-7 rounded-full bg-[#1c1a13] border border-[#3a3627] flex items-center justify-center text-xs font-mono text-[#c99a4e]">
-                {i + 1}
-              </span>
-              <p className="text-sm sm:text-base text-[#e5ded0] pt-0.5">{step}</p>
-            </li>
-          ))}
-          <li className="flex gap-4 pt-1">
-            <CheckCircle2 className="w-7 h-7 flex-shrink-0 text-[#4f8a80]" />
-            <p className="text-sm sm:text-base text-[#4f8a80] pt-0.5 font-medium">
-              Selesai — tanpa akun, tanpa batas kuota harian.
-            </p>
-          </li>
-        </ol>
-      </section>
-
-      {/* --- CLOSING CTA --- */}
-      <section className="max-w-6xl mx-auto px-6 pb-24 pt-4 w-full">
-        <div className="border border-[#3a3627] bg-[#1c1a13] rounded-2xl px-8 py-12 text-center relative overflow-hidden">
-          <div className="absolute top-3 left-3"><Rivet /></div>
-          <div className="absolute top-3 right-3"><Rivet /></div>
-          <div className="absolute bottom-3 left-3"><Rivet /></div>
-          <div className="absolute bottom-3 right-3"><Rivet /></div>
-          <h2 className="text-2xl sm:text-3xl font-bold mb-3">Siap merapikan alur kerja Anda?</h2>
-          <p className="text-[#a79c87] text-sm sm:text-base mb-8 max-w-md mx-auto">
-            Masuk ke dashboard dan mulai gunakan salah satu dari 12+ alat yang tersedia — gratis, tanpa daftar kartu.
-          </p>
-          <Link
-            href="/dashboard"
-            className="inline-flex items-center justify-center gap-2 bg-[#c99a4e] text-[#15140f] px-8 py-3.5 rounded-lg font-bold text-sm tracking-wide hover:bg-[#dcae63] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#c99a4e] transition-colors"
-          >
-            Mulai Sekarang
-            <ArrowRight className="w-4 h-4 stroke-[2.5]" />
-          </Link>
-        </div>
-      </section>
-
-      <Footer />
+      {/* Footer Minimalist Note */}
+      <div className="text-center mt-12 text-xs text-slate-500 font-mono">
+        <p>&copy; {new Date().getFullYear()} ToolHub Ecosystem &bull; Sistem Pemeliharaan Terjadwal</p>
+      </div>
     </div>
   );
 }
-
