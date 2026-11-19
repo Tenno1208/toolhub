@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Layers, HelpCircle } from 'lucide-react'; // 🚀 Tambah HelpCircle
+import { Layers, Lock } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -9,27 +9,26 @@ export default function Footer() {
         {/* Sisi Kiri: Deskripsi Singkat */}
         <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
           <div className="flex items-center gap-2 mb-2">
-            <Layers className="w-4 h-4 text-purple-400" />
+            <Layers className="w-4 h-4 text-amber-400" />
             <span className="font-bold text-sm tracking-tight text-white">ToolHub Ecosystem</span>
           </div>
           <p className="text-xs text-slate-500 max-w-xs">
-            Aplikasi toolbox open-source yang terus berkembang secara berkala untuk kenyamanan produktivitas Anda.
+            Aplikasi digital toolbox modern. Sedang dalam tahap peningkatan sistem besar-besaran (v4.0).
           </p>
         </div>
 
         {/* Sisi Tengah/Kanan: Informasi Status Proyek */}
         <div className="flex flex-wrap justify-center items-center gap-x-5 gap-y-2 text-xs font-medium text-slate-400">
-          <span className="flex items-center gap-1.5 text-orange-400 mr-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse"></span>
-            Under Development
+          <span className="flex items-center gap-1.5 text-amber-400 mr-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+            Sistem Maintenance v4.0
           </span>
           
-          {/* 🚀 BARU: Link Dokumentasi Fitur Terintegrasi */}
-          <Link href="/dashboard/features" className="text-purple-400 hover:text-purple-300 transition-colors flex items-center gap-1">
-            <HelpCircle className="w-3.5 h-3.5" /> Dokumentasi Fitur
-          </Link>
+          <span className="text-slate-500 flex items-center gap-1 cursor-not-allowed">
+            <Lock className="w-3 h-3 text-amber-400/70" />
+            <span>Dashboard Dinonaktifkan</span>
+          </span>
           
-          <Link href="/dashboard" className="hover:text-white transition-colors">Dashboard App</Link>
           <a href="https://github.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">GitHub Repository</a>
         </div>
 
